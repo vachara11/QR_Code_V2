@@ -14,7 +14,6 @@
         href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,300;0,400;0,500;0,600;0,700&family=Sarabun:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 
-
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
@@ -61,7 +60,6 @@
             border-radius: 4px;
         }
 
-        /* ซ่อน scrollbar แนวนอนของ Mobile Nav */
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -80,7 +78,6 @@
             page-break-inside: avoid;
         }
 
-        /* สไตล์สำหรับการพิมพ์ TH Saraban (Sarabun) */
         .print-th-saraban,
         .print-th-saraban * {
             font-family: 'TH Sarabun PSK', 'Sarabun', sans-serif !important;
@@ -90,9 +87,6 @@
             font-size: 16px !important;
         }
 
-        /* ============================================================
-           ✅ FIX: Sidebar - ซ่อนบนมือถือ แสดงเฉพาะเดสก์ท็อปเมื่อล็อกอิน
-           ============================================================ */
         #desktop-sidebar {
             display: none;
             flex-direction: column;
@@ -104,17 +98,14 @@
             }
         }
 
-        /* ===== Mobile Optimizations ===== */
         @media (max-width: 767.98px) {
 
-            /* กัน iOS auto-zoom เวลากรอกข้อมูล */
             input,
             select,
             textarea {
                 font-size: 16px !important;
             }
 
-            /* Safe area สำหรับ iPhone */
             .mobile-safe-bottom {
                 padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 4px);
             }
@@ -123,82 +114,18 @@
                 padding-top: env(safe-area-inset-top, 0px);
             }
 
-            /* บัตร CR80 ย่อขนาดบนจอเล็กมาก */
             .id-card-cr80 {
                 transform: scale(0.92);
                 transform-origin: top left;
             }
         }
 
-        /* ============================================================
-   ✅ FIX & MODERN DESIGN: โหมดสั่งพิมพ์บัตรนักศึกษา (Print Cards Mode)
-   ============================================================ */
-
         @media print {
-            @page {
-                size: A4 portrait;
-                margin: 8mm 6mm;
-            }
-
-            * {
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-                color-adjust: exact !important;
-            }
-
-            body {
-                background: white !important;
-                margin: 0 !important;
-                padding: 0 !important;
-            }
-
-            body * {
-                visibility: hidden !important;
-            }
-
-            /* แสดงเฉพาะตารางการพิมพ์บัตร จัดเรียง 2 คอลัมน์คู่ */
-            body.printing-cards #cards-print-zone,
-            body.printing-cards #cards-print-zone * {
-                visibility: visible !important;
-            }
-
-            body.printing-cards #cards-print-zone {
-                position: absolute !important;
-                left: 0 !important;
-                top: 0 !important;
-                width: 100% !important;
-                display: grid !important;
-                grid-template-columns: repeat(2, 85.6mm) !important;
-                gap: 5mm 8mm !important;
-                justify-content: center !important;
-                align-content: start !important;
-                padding: 0 !important;
-                margin: 0 auto !important;
-            }
-
-            .id-card-cr80-white-maroon {
-                width: 85.6mm !important;
-                height: 54mm !important;
-                min-width: 85.6mm !important;
-                min-height: 54mm !important;
-                box-shadow: none !important;
-                page-break-inside: avoid !important;
-                break-inside: avoid !important;
-            }
-        }
-
-        /* ============================================================
-   ✅ FIX White Screen Print Mode (แก้ไขหน้าพิมพ์ขาวเปล่า)
-   ============================================================ */
-        @media print {
-
-            /* ตั้งค่าหน้ากระดาษและระยะขอบ */
             @page {
                 size: A4 portrait;
                 margin: 10mm;
             }
 
-            /* บังคับพิมพ์สีพื้นหลังและรูปภาพ */
             * {
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
@@ -211,12 +138,10 @@
                 padding: 0 !important;
             }
 
-            /* ซ่อนองค์ประกอบปกติทั้งหมด */
             body * {
                 visibility: hidden !important;
             }
 
-            /* 1. Print Dashboard Mode (โหมดพิมพ์แดชบอร์ด) */
             body.printing-dashboard #dashboard-printable-area,
             body.printing-dashboard #dashboard-printable-area * {
                 visibility: visible !important;
@@ -231,7 +156,6 @@
                 padding: 0 !important;
             }
 
-            /* 2. Print Cards Mode (โหมดพิมพ์บัตรนักศึกษา) */
             body.printing-cards #cards-print-zone,
             body.printing-cards #cards-print-zone * {
                 visibility: visible !important;
@@ -249,7 +173,6 @@
                 margin: 0 auto !important;
             }
 
-            /* 3. Print Report Mode (โหมดพิมพ์ใบรายงาน) */
             body.printing-report #report-printable-area,
             body.printing-report #report-printable-area * {
                 visibility: visible !important;
@@ -262,15 +185,11 @@
                 width: 100% !important;
             }
 
-            /* ซ่อนปุ่มหรือ Element ที่ติดคลาส no-print */
             .no-print {
                 display: none !important;
             }
         }
 
-        /* ============================================================
-   🎨 สไตล์บัตรโทนสีขาว-แดงเลือดหมู (Premium Clean Design)
-   ============================================================ */
         .id-card-cr80-white-maroon {
             width: 85.6mm;
             height: 54mm;
@@ -279,20 +198,15 @@
             box-sizing: border-box;
             background: #ffffff !important;
             border: 1px solid #e5e7eb !important;
-            /* เปลี่ยนขอบเป็นสีเทาอ่อน ดูสะอาดตา */
             border-radius: 12px;
             position: relative;
             overflow: hidden;
             color: #1e293b !important;
             box-shadow: 0 4px 14px rgba(133, 14, 28, 0.12);
-            /* เงาละมุนขึ้น */
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
         }
 
-        /* ลบเงากลมๆ ด้านล่างออกเพื่อให้บัตรดูคลีนที่สุด */
-
-        /* แถบตกแต่งลวดลายมุมบัตร */
         .id-card-cr80-white-maroon::after {
             content: '';
             position: absolute;
@@ -330,8 +244,7 @@
             <div class="text-center mb-6">
                 <div class="h-16 sm:h-20 flex items-center justify-center mb-3">
                     <img src="https://aftpsc.site/font_end/image/aft_logo.png" alt="โลโก้ อวท."
-                        class="h-full object-contain filter drop-shadow"
-                        onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-16 h-16 rounded-2xl bg-maroon-800 text-white font-bold text-2xl flex items-center justify-center shadow\'>อวท.</div>';">
+                        class="h-full object-contain filter drop-shadow">
                 </div>
                 <h2 class="text-lg sm:text-xl font-bold text-stone-900">เข้าสู่ระบบ อวท.</h2>
                 <p class="text-xs text-stone-600 mt-1">วิทยาลัยเทคโนโลยีพงษ์สวัสดิ์</p>
@@ -837,20 +750,17 @@
                         <p id="report-activity-date"
                             class="text-sm font-semibold text-maroon-800 mt-0.5 print:text-lg print-th-saraban text-center hidden print:block">
                             -</p>
-                        <p id="report-filter-info"
-                            class="text-sm font-medium text-stone-700 mt-1 print:text-lg print-th-saraban hidden print:block text-center">
-                            -</p>
+
                     </div>
 
-                    <!-- ส่วนสรุปรายงานฉบับใหม่ -->
                     <div id="print-formal-report-summary"
                         class="text-base print:text-lg print-th-saraban my-4 border-y border-stone-300 py-3 space-y-1">
                         <p><strong>จำนวนนักศึกษาทั้งหมด</strong> <span id="summary-total-students">๐</span> คน</p>
                         <p><strong>จำนวนผู้เข้าร่วมกิจกรรม</strong> <span id="summary-present-students">๐</span> คน</p>
                         <p><strong>จำนวนผู้ไม่เข้าร่วมกิจกรรม</strong> <span id="summary-absent-students">๐</span> คน
                         </p>
-                        <p><strong>จำนวนผู้เข้าร่วมกิจกรรมคิดเป็นร้อยละ </strong> <span id="summary-percent-students">
-                                ๐.๐๐</span></p>
+                        <p><strong>จำนวนผู้เข้าร่วมกิจกรรมคิดเป็นร้อยละ </strong> <span
+                                id="summary-percent-students">๐.๐๐</span></p>
                     </div>
                     <div class="overflow-x-auto mt-4 -mx-4 px-4 sm:mx-0 sm:px-0">
                         <table class="w-full text-left text-xs border border-stone-300 min-w-[640px]">
@@ -1201,13 +1111,12 @@
         let chartBranchInstance = null;
         let chartShiftInstance = null;
 
-        // Helper: แปลงเลขอารบิกเป็นเลขไทย
-        function toThaiDigits(num) {
-            if (num === null || num === undefined) return '๐';
-            return String(num).replace(/[0-9]/g, d => '๐๑๒๓๔๕๖๗๘๙'[d]);
+        // Helper: แปลงเลขอารบิกทั้งหมดในข้อความ/ตัวเลขให้เป็นเลขไทย
+        function toThaiDigits(val) {
+            if (val === null || val === undefined) return '๐';
+            return String(val).replace(/[0-9]/g, d => '๐๑๒๓๔๕๖๗๘๙'[d]);
         }
 
-        // Helper: แปลงวันที่ให้เป็นรูปแบบภาษาไทย เช่น วันที่ ๖ ตุลาคม พ.ศ.๒๕๖๙
         function formatThaiDate(dateString) {
             if (!dateString) return '-';
             const d = new Date(dateString);
@@ -1216,7 +1125,6 @@
             return `วันที่ ${toThaiDigits(d.getDate())} ${months[d.getMonth()]} พ.ศ. ${toThaiDigits(d.getFullYear() + 543)}`;
         }
 
-        // Web Audio Chime
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playScanChime(isSuccess = true) {
             if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -1229,7 +1137,6 @@
             }
         }
 
-        // ฟังก์ชันเสียงพูดภาษาไทย
         function speakThai(text) {
             if ('speechSynthesis' in window) {
                 const utterance = new SpeechSynthesisUtterance(text);
@@ -1239,7 +1146,6 @@
             }
         }
 
-        // Toast
         function showToast(message, type = 'success') {
             const box = document.getElementById('toast-box');
             const toast = document.createElement('div');
@@ -1326,7 +1232,6 @@
             document.getElementById('login-password').value = p;
         }
 
-        // ✅ FIX: ใช้ class 'auth-active' สำหรับ sidebar แทนการ toggle 'hidden'
         function updateAuthUI() {
             const loginScreen = document.getElementById('view-login-screen');
             const desktopSidebar = document.getElementById('desktop-sidebar');
@@ -1337,14 +1242,14 @@
 
             if (!currentUser) {
                 loginScreen.classList.remove('hidden');
-                desktopSidebar.classList.remove('auth-active'); // ซ่อน sidebar
+                desktopSidebar.classList.remove('auth-active');
                 if (mobileHeader) mobileHeader.classList.add('hidden');
                 if (mobileNav) mobileNav.classList.add('hidden');
                 adminElements.forEach(el => el.classList.add('hidden'));
                 adminMobElements.forEach(el => { el.classList.add('hidden'); el.classList.remove('flex'); });
             } else {
                 loginScreen.classList.add('hidden');
-                desktopSidebar.classList.add('auth-active'); // แสดง sidebar เฉพาะ desktop (CSS จัดการ)
+                desktopSidebar.classList.add('auth-active');
                 if (mobileHeader) mobileHeader.classList.remove('hidden');
                 if (mobileNav) mobileNav.classList.remove('hidden');
                 document.getElementById('sb-user-name').innerText = currentUser.full_name;
@@ -1379,7 +1284,6 @@
             const targetView = document.getElementById(`view-${viewName}`);
             if (targetView) targetView.classList.remove('hidden');
 
-            // Desktop sidebar nav
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 if (btn.getAttribute('data-target') === viewName) {
                     btn.classList.add('bg-white/20', 'text-white');
@@ -1388,7 +1292,6 @@
                 }
             });
 
-            // Mobile bottom nav
             document.querySelectorAll('.mob-nav-btn').forEach(btn => {
                 if (btn.getAttribute('data-mob-target') === viewName) {
                     btn.classList.add('text-maroon-800', 'bg-rose-50');
@@ -1399,7 +1302,6 @@
                 }
             });
 
-            // Scroll to top on mobile when switching views
             if (window.innerWidth < 768) {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
@@ -1407,8 +1309,8 @@
             if (viewName === 'students') fetchStudents();
             else if (viewName === 'activities') fetchActivities();
             else if (viewName === 'cards') {
-                populateDropdowns();    // ให้โหลดตัวเลือกก่อน
-                renderCardsByFilter();  // สั่งเรนเดอร์บัตร
+                populateDropdowns();
+                renderCardsByFilter();
             }
             else if (viewName === 'landing') updateDashboardAnalytics();
             else if (viewName === 'reports') loadReportData();
@@ -1454,7 +1356,6 @@
             }
         }
 
-        // 1. ฟังก์ชันดึงและจัดเตรียมข้อมูลใส่ตัวเลือก Dropdown
         function populateDropdowns() {
             const branches = [...new Set(studentsCache.map(s => s.branch).filter(Boolean))].sort();
             ['card-filter-branch', 'dash-filter-branch', 'report-filter-branch'].forEach(id => {
@@ -1469,7 +1370,6 @@
                 });
             });
 
-            // ดึงรายการห้องที่มีอยู่จริงจากข้อมูลนักศึกษา
             const rooms = [...new Set(studentsCache.map(s => String(s.room || '1').trim()).filter(Boolean))].sort();
             const roomSelect = document.getElementById('card-filter-room');
             if (roomSelect) {
@@ -1518,10 +1418,8 @@
                 card.className = 'id-card-cr80-white-maroon relative flex flex-col justify-between print-th-saraban select-none';
                 card.style.fontFamily = "'TH Sarabun PSK', 'Sarabun', sans-serif";
                 card.innerHTML = `
-          <!-- Header Banner (ปรับระยะห่างบรรทัด + Logo ไม่มีขอบขาว) -->
           <div class="bg-gradient-to-r from-maroon-900 via-maroon-800 to-maroon-950 text-white px-2.5 py-1.5 flex items-center justify-between border-b-2 border-amber-400 z-10">
             <div class="flex items-center gap-2 min-w-0">
-              <!-- Logo แสดงเฉพาะตัวโลโก้เด่นๆ ไม่มีขอบขาว/กรอบขาว -->
               <img src="https://aftpsc.site/font_end/image/aft_logo.png" class="w-8 h-8 object-contain flex-shrink-0 drop-shadow">
               
               <div class="leading-snug min-w-0 space-y-0.5">
@@ -1539,10 +1437,8 @@
             </span>
           </div>
 
-          <!-- Body Content (แก้ไขเรื่องชื่อยาวไม่ให้ถูกตัดอักษร) -->
           <div class="my-auto py-1 px-2.5 flex items-center justify-between gap-1.5 z-10">
             <div class="flex-1 min-w-0 pr-1">
-              <!-- ปรับขนาดฟอนต์ชื่อลงเล็กน้อย + ให้ย่อตามความยาวชื่อ ป้องกันชื่อขาดหาย -->
               <p class="font-bold text-[15px] text-maroon-950 leading-tight mb-1 break-words line-clamp-2" title="${s.prefix}${s.first_name} ${s.last_name}">
                 ${s.prefix}${s.first_name} ${s.last_name}
               </p>
@@ -1553,20 +1449,17 @@
               </div>
             </div>
 
-            <!-- QR Code Container -->
             <div class="flex flex-col items-center justify-center flex-shrink-0 p-1 rounded-xl bg-white border border-stone-200 shadow-sm">
               <div id="card-qr-${idx}"></div>
             </div>
           </div>
 
-          <!-- Footer Barcode -->
           <div class="bg-stone-50 border-t border-stone-200 px-2 py-1 flex items-center justify-center z-10">
             <svg id="card-bc-${idx}" class="w-full h-5"></svg>
           </div>
         `;
                 container.appendChild(card);
 
-                // Gen Barcode & QR Code
                 setTimeout(() => {
                     try {
                         if (window.JsBarcode) {
@@ -1584,6 +1477,7 @@
             });
             if (window.lucide) lucide.createIcons();
         }
+
         function populateActs() {
             const scanSelect = document.getElementById('scan-activity-select');
             const repSelect = document.getElementById('report-activity-select');
@@ -1695,8 +1589,6 @@
             document.getElementById('card-scanned-time').innerText = new Date().toLocaleTimeString('th-TH');
         }
 
-
-        // ค้นหาฟังก์ชัน updateDashboardAnalytics() และปรับแก้การดึงข้อมูลสรุป
         async function updateDashboardAnalytics() {
             await fetchAttendance();
             const actId = document.getElementById('dash-filter-act').value;
@@ -1716,7 +1608,6 @@
             if (level) records = records.filter(r => r.student.class_level === level);
             if (branch) records = records.filter(r => r.student.branch === branch);
 
-            // ดึงข้อมูล "นักศึกษาทั้งหมด" จากหน้าจัดการข้อมูลนักศึกษาตามเงื่อนไขการกรอง
             let studentFiltered = studentsCache;
             if (shift) studentFiltered = studentFiltered.filter(s => s.shift === shift);
             if (level) studentFiltered = studentFiltered.filter(s => s.class_level === level);
@@ -1726,12 +1617,10 @@
             const morningCount = studentFiltered.filter(s => s.shift === 'รอบเช้า').length;
             const afternoonCount = studentFiltered.filter(s => s.shift === 'รอบบ่าย').length;
 
-            // อัปเดต UI แดชบอร์ด
             document.getElementById('dash-stat-total').innerText = `${toThaiDigits(totalCount)} คน`;
             document.getElementById('dash-stat-morning').innerText = `${toThaiDigits(morningCount)} คน`;
             document.getElementById('dash-stat-afternoon').innerText = `${toThaiDigits(afternoonCount)} คน`;
 
-            // (ส่วนการคำนวณสถานะการเข้าร่วม presentCount, absentCount ฯลฯ คงไว้เหมือนเดิม...)
             const presentCount = records.filter(r => (r.status || 'เข้าร่วมกิจกรรม') === 'เข้าร่วมกิจกรรม').length;
             const absentCount = records.filter(r => r.status === 'ไม่เข้าร่วม').length;
             const leaveCount = records.filter(r => r.status === 'ลาป่วย' || r.status === 'ลากิจ').length;
@@ -1744,7 +1633,6 @@
             document.getElementById('dash-stat-activity').innerText = `${toThaiDigits(activityCount)} คน`;
             document.getElementById('dash-stat-late').innerText = `${toThaiDigits(lateCount)} คน`;
 
-            // (ส่วนการสร้างกราฟคงไว้เหมือนเดิม...)
             const branchMap = {};
             records.forEach(r => {
                 const b = r.student.branch || 'ไม่ระบุ';
@@ -1886,20 +1774,15 @@
             });
         }
 
-        // ค้นหาฟังก์ชัน generateDashboardPrintTable() และเปลี่ยนส่วนหัวให้เป็นพรรณนาแบบทางการ
-        // ✅ ฟังก์ชันสร้างตารางทางการ 2 ตารางสำหรับพิมพ์แดชบอร์ดภาพรวม
         function generateDashboardPrintTable(records, totalCount, morningCount, afternoonCount) {
             const actId = document.getElementById('dash-filter-act')?.value;
             const act = activitiesCache.find(a => a.id === actId);
             let actNameStr = act ? act.activity_name : 'รวมทุกกิจกรรม';
             let actDateStr = act ? formatThaiDate(act.activity_date) : '-';
 
-            // 1. ประมวลผลข้อมูลแยกตามสาขาวิชา (ตารางที่ 1)
             const branchStats = {};
-            // 2. ประมวลผลข้อมูลแยกตามห้อง (ตารางที่ 2)
             const roomStats = {};
 
-            // จัดกลุ่มนักศึกษาทั้งหมดตามเงื่อนไขเพื่อหาจำนวนรวมของแต่ละสาขา/ห้อง
             const shiftFilter = document.getElementById('dash-filter-shift')?.value || '';
             const levelFilter = document.getElementById('dash-filter-level')?.value || '';
             const branchFilter = document.getElementById('dash-filter-branch')?.value || '';
@@ -1913,7 +1796,6 @@
                 return matchShift && matchLevel && matchBranch;
             });
 
-            // เริ่มต้นตัวนับสำหรับนักศึกษาทุกคน
             targetStudents.forEach(s => {
                 const b = s.branch || 'ไม่ระบุสาขา';
                 const rKey = `${s.branch || '-'} | ${s.class_level || '-'}/ห้อง ${s.room || '1'}`;
@@ -1925,7 +1807,6 @@
                 roomStats[rKey].total++;
             });
 
-            // นำรายการสแกนเข้าร่วมมานับจำนวนผู้เข้าร่วม (Present)
             records.forEach(r => {
                 const st = r.student || {};
                 const isPresent = (r.status || 'เข้าร่วมกิจกรรม') === 'เข้าร่วมกิจกรรม';
@@ -1938,7 +1819,6 @@
                 }
             });
 
-            // ------------------ สร้างโครงสร้าง HTML สำหรับพิมพ์ ------------------
             let html = `
     <div class="flex flex-col items-center justify-center mb-6 text-center">
         <img src="https://aftpsc.site/font_end/image/aft_logo.png" class="h-20 w-auto mb-2">
@@ -1948,7 +1828,6 @@
         <p class="text-lg print-th-saraban font-semibold">${actDateStr}</p>
     </div>
 
-    <!-- ------------------ ตารางที่ 1: สรุปภาพรวมเป็นสาขาวิชา ------------------ -->
     <div class="mb-6">
         <h4 class="font-bold text-lg print-th-saraban mb-2">ตารางที่ ๑: สรุปภาพรวมการเข้าร่วมกิจกรรมแยกตามสาขาวิชา</h4>
         <table class="w-full text-left border-collapse border border-stone-800 print-th-saraban text-base">
@@ -1968,7 +1847,6 @@
             let sumBTotal = 0, sumBPresent = 0, sumBAbsent = 0;
 
             for (let b in branchStats) {
-                // กรองเฉพาะสาขาที่มีผู้เข้าร่วมมากกว่า 0
                 if (branchStats[b].present > 0) {
                     const tot = branchStats[b].total;
                     const pres = branchStats[b].present;
@@ -2004,7 +1882,6 @@
         </table>
     </div>
 
-    <!-- ------------------ ตารางที่ 2: สรุปภาพรวมเป็นห้อง ------------------ -->
     <div class="mb-6">
         <h4 class="font-bold text-lg print-th-saraban mb-2">ตารางที่ ๒: สรุปภาพรวมการเข้าร่วมกิจกรรมแยกตามระดับชั้น/ห้อง</h4>
         <table class="w-full text-left border-collapse border border-stone-800 print-th-saraban text-base">
@@ -2026,7 +1903,6 @@
 
             for (let rKey in roomStats) {
                 const item = roomStats[rKey];
-                // ✅ กรองเฉพาะห้องที่มีการลงทะเบียนเข้าร่วมกิจกรรม (present > 0)
                 if (item.present > 0) {
                     const tot = item.total;
                     const pres = item.present;
@@ -2063,7 +1939,6 @@
         </table>
     </div>
 
-    <!-- ส่วนเซ็นชื่อลงนาม -->
     <div class="mt-8 flex justify-end">
         <div class="text-center w-64 text-base print-th-saraban space-y-4">
             <p>ลงชื่อ....................................................</p>
@@ -2082,14 +1957,41 @@
             }
             pC.innerHTML = html;
         }
+
         function printDashboardView() {
             document.body.classList.add('printing-dashboard');
+            const pa = document.getElementById('dashboard-printable-area');
+            if (!pa) {
+                showToast('ไม่พบพื้นที่พิมพ์แดชบอร์ด', 'error');
+                document.body.classList.remove('printing-dashboard');
+                return;
+            }
+
+            // ใส่ class ฟอนต์ TH Sarabun
+            pa.classList.add('print-th-saraban');
+
+            // แปลงตัวเลขอารบิกทุกตัวในพื้นที่พิมพ์แดชบอร์ดให้เป็นเลขไทย
+            const walkAndConvert = (node) => {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    node.nodeValue = node.nodeValue.replace(/[0-9]/g, d => '๐๑๒๓๔๕๖๗๘๙'[d]);
+                } else {
+                    if (node.classList && node.classList.contains('no-print')) return;
+                    for (let child of node.childNodes) {
+                        walkAndConvert(child);
+                    }
+                }
+            };
+            walkAndConvert(pa);
+
             window.print();
-            document.body.classList.remove('printing-dashboard');
+
+            setTimeout(() => {
+                document.body.classList.remove('printing-dashboard');
+                pa.classList.remove('print-th-saraban');
+                // อัปเดตแดชบอร์ดกลับเพื่อคืนค่าข้อมูลเดิม
+                updateDashboardAnalytics();
+            }, 500);
         }
-
-        // ================= STUDENT CARDS =================
-
 
         function printCardsView() {
             document.body.classList.add('printing-cards');
@@ -2097,9 +1999,7 @@
             document.body.classList.remove('printing-cards');
         }
 
-
         // ================= REPORT & STATUS UPDATE =================
-        // ✅ ฟังก์ชันดึงข้อมูลรายงานและอัปเดตสรุปสั้น 4 หัวข้อ
         async function loadReportData(isPrint = false) {
             const actId = document.getElementById('report-activity-select')?.value;
             const branch = document.getElementById('report-filter-branch')?.value || '';
@@ -2108,80 +2008,210 @@
 
             if (!sbClient || !actId) return;
 
-            // 1. แสดงชื่อกิจกรรมและวันที่
-            const act = activitiesCache.find(a => a.id === actId);
-            if (act) {
-                document.getElementById('report-activity-title').innerText = `กิจกรรม ${act.activity_name}`;
-                document.getElementById('report-activity-date').innerText = formatThaiDate(act.activity_date);
+            // แสดงตัวโหลดสั้นๆ ป้องกันหน้า UI ค้าง
+            showLoader('กำลังเตรียมข้อมูลรายงาน...');
+
+            setTimeout(async () => {
+                try {
+                    const act = activitiesCache.find(a => a.id === actId);
+                    if (act) {
+                        document.getElementById('report-activity-title').innerText = `กิจกรรม ${act.activity_name}`;
+                        document.getElementById('report-activity-date').innerText = formatThaiDate(act.activity_date);
+                    }
+
+                    const cleanStr = (val) => String(val || '').replace(/\s+/g, '').toLowerCase();
+
+                    const filteredStudents = studentsCache.filter(s => {
+                        const matchBranch = !branch || cleanStr(s.branch) === cleanStr(branch);
+                        const matchLevel = !level || cleanStr(s.class_level) === cleanStr(level);
+                        const matchShift = !shift || cleanStr(s.shift) === cleanStr(shift);
+                        return matchBranch && matchLevel && matchShift;
+                    });
+
+                    const activityAttendance = attendanceCache.filter(a => a.activity_id === actId);
+                    const attendanceMap = new Map();
+                    activityAttendance.forEach(a => attendanceMap.set(a.student_id, a));
+
+                    const totalCount = filteredStudents.length;
+                    let presentCount = 0;
+                    let absentCount = 0;
+
+                    const reportList = filteredStudents.map(st => {
+                        const att = attendanceMap.get(st.student_id);
+                        const status = att ? (att.status || 'เข้าร่วมกิจกรรม') : 'ไม่เข้าร่วม';
+                        if (status === 'เข้าร่วมกิจกรรม' || status === 'มาสาย') {
+                            presentCount++;
+                        } else if (status === 'ไม่เข้าร่วม') {
+                            absentCount++;
+                        }
+                        return {
+                            student: st,
+                            attendanceId: att ? att.id : null,
+                            status: status,
+                            scannedAt: att ? att.scanned_at : null
+                        };
+                    });
+
+                    const percent = totalCount > 0 ? ((presentCount / totalCount) * 100).toFixed(2) : '0.00';
+
+                    const totalEl = document.getElementById('summary-total-students');
+                    const presentEl = document.getElementById('summary-present-students');
+                    const absentEl = document.getElementById('summary-absent-students');
+                    const percentEl = document.getElementById('summary-percent-students');
+
+                    if (totalEl) totalEl.innerText = toThaiDigits(totalCount);
+                    if (presentEl) presentEl.innerText = toThaiDigits(presentCount);
+                    if (absentEl) absentEl.innerText = toThaiDigits(absentCount);
+                    if (percentEl) percentEl.innerText = toThaiDigits(percent);
+
+                    const tbody = document.getElementById('report-table-tbody');
+                    if (!tbody) { hideLoader(); return; }
+
+                    if (reportList.length === 0) {
+                        tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-stone-400">ไม่พบข้อมูลตามเงื่อนไขที่เลือก</td></tr>`;
+                    } else {
+                        // ✅ ต่อสตริงไว้ในตัวแปรเดียว เพื่อลด DOM rendering ค้าง
+                        let htmlRows = '';
+                        reportList.forEach((item, idx) => {
+                            const st = item.student;
+                            const scanTime = item.scannedAt
+                                ? toThaiDigits(new Date(item.scannedAt).toLocaleTimeString('th-TH'))
+                                : '-';
+                            const attId = item.attendanceId;
+
+                            const statusColors = {
+                                'เข้าร่วมกิจกรรม': 'bg-emerald-100 text-emerald-800 border-emerald-300',
+                                'ไม่เข้าร่วม': 'bg-rose-100 text-rose-800 border-rose-300',
+                                'ลากิจ': 'bg-amber-100 text-amber-800 border-amber-300',
+                                'ลาป่วย': 'bg-amber-100 text-amber-800 border-amber-300',
+                                'กิจกรรมวิทยาลัย': 'bg-purple-100 text-purple-800 border-purple-300',
+                                'มาสาย': 'bg-orange-100 text-orange-800 border-orange-300'
+                            };
+
+                            const currentBg = statusColors[item.status] || 'bg-stone-100 text-stone-800';
+
+                            htmlRows += `
+                        <tr class="hover:bg-rose-50/40 border-b border-stone-200">
+                            <td class="p-2 text-center border-r border-stone-300 font-mono">${toThaiDigits(idx + 1)}</td>
+                            <td class="p-2 border-r border-stone-300 font-mono font-semibold text-maroon-800">${toThaiDigits(st.student_id)}</td>
+                            <td class="p-2 border-r border-stone-300 font-medium">${st.prefix}${st.first_name} ${st.last_name}</td>
+                            <td class="p-2 border-r border-stone-300 text-stone-600">${st.branch} (${st.class_level}/ห้อง ${toThaiDigits(st.room || '1')})</td>
+                            <td class="p-2 border-r border-stone-300 text-stone-600">${st.shift || '-'}</td>
+                            <td class="p-2 border-r border-stone-300 text-center font-mono">${scanTime}</td>
+                            <td class="p-2 text-center">
+                                <select onchange="handleReportStatusChange('${st.student_id}', '${actId}', '${attId || ''}', this.value)"
+                                    class="text-xs font-semibold px-2 py-1 rounded-lg border outline-none cursor-pointer ${currentBg} no-print">
+                                    <option value="เข้าร่วมกิจกรรม" ${item.status === 'เข้าร่วมกิจกรรม' ? 'selected' : ''}>เข้าร่วมกิจกรรม</option>
+                                    <option value="ไม่เข้าร่วม" ${item.status === 'ไม่เข้าร่วม' ? 'selected' : ''}>ไม่เข้าร่วม</option>
+                                    <option value="ลากิจ" ${item.status === 'ลากิจ' ? 'selected' : ''}>ลากิจ</option>
+                                    <option value="ลาป่วย" ${item.status === 'ลาป่วย' ? 'selected' : ''}>ลาป่วย</option>
+                                    <option value="กิจกรรมวิทยาลัย" ${item.status === 'กิจกรรมวิทยาลัย' ? 'selected' : ''}>กิจกรรมวิทยาลัย</option>
+                                    <option value="มาสาย" ${item.status === 'มาสาย' ? 'selected' : ''}>มาสาย</option>
+                                </select>
+                                <span class="hidden print:inline font-semibold">${item.status}</span>
+                            </td>
+                        </tr>
+                    `;
+                        });
+                        // แสดงผลลัพธ์ลงใน DOM เพียงครั้งเดียว
+                        tbody.innerHTML = htmlRows;
+                    }
+
+                    renderAbsentStudentsByRoom(reportList);
+                    if (window.lucide) lucide.createIcons();
+                } finally {
+                    hideLoader();
+                }
+            }, 50);
+        }
+
+        async function handleReportStatusChange(studentId, activityId, attendanceId, newStatus) {
+            showLoader('กำลังอัปเดตสถานะ...');
+            try {
+                if (attendanceId && attendanceId !== 'null' && attendanceId !== '') {
+                    const { error } = await sbClient
+                        .from('attendance')
+                        .update({ status: newStatus })
+                        .eq('id', attendanceId);
+                    if (error) throw error;
+                } else {
+                    const { error } = await sbClient
+                        .from('attendance')
+                        .upsert({
+                            student_id: studentId,
+                            activity_id: activityId,
+                            status: newStatus,
+                            scanned_by: currentUser ? currentUser.full_name : 'Staff'
+                        }, { onConflict: 'student_id,activity_id' });
+                    if (error) throw error;
+                }
+                showToast(`อัปเดตสถานะเป็น "${newStatus}" เรียบร้อยแล้ว`);
+                await fetchAttendance();
+                await loadReportData();
+            } catch (err) {
+                showToast(`อัปเดตไม่สำเร็จ: ${err.message}`, 'error');
+            } finally {
+                hideLoader();
             }
+        }
 
-            // 2. ดึงข้อมูลการเข้าแถว/กิจกรรมตามเงื่อนไขที่เลือก
-            let filtered = attendanceCache.filter(a => a.activity_id === actId);
+        function renderAbsentStudentsByRoom(reportList) {
+            const absentList = reportList.filter(item => item.status === 'ไม่เข้าร่วม');
 
-            const cleanStr = (val) => String(val || '').replace(/\s+/g, '').toLowerCase();
-
-            let list = filtered.map(a => {
-                const st = studentsCache.find(s => s.student_id === a.student_id) || a.students || {};
-                return { ...a, student: st };
-            }).filter(item => {
-                const matchBranch = !branch || cleanStr(item.student.branch) === cleanStr(branch);
-                const matchLevel = !level || cleanStr(item.student.class_level) === cleanStr(level);
-                const matchShift = !shift || cleanStr(item.student.shift) === cleanStr(shift);
-                return matchBranch && matchLevel && matchShift;
+            const roomGroup = {};
+            absentList.forEach(item => {
+                const st = item.student;
+                const key = `${st.branch} - ${st.class_level} (ห้อง ${st.room || '1'})`;
+                if (!roomGroup[key]) roomGroup[key] = [];
+                roomGroup[key].push(st);
             });
 
-            // 3. คำนวณยอดสรุปทั้ง 4 หัวข้อ
-            const totalCount = studentsCache.filter(s => {
-                const matchBranch = !branch || cleanStr(s.branch) === cleanStr(branch);
-                const matchLevel = !level || cleanStr(s.class_level) === cleanStr(level);
-                const matchShift = !shift || cleanStr(s.shift) === cleanStr(shift);
-                return matchBranch && matchLevel && matchShift;
-            }).length;
-
-            const presentCount = list.filter(a => (a.status || 'เข้าร่วมกิจกรรม') === 'เข้าร่วมกิจกรรม').length;
-            const absentCount = totalCount > presentCount ? totalCount - presentCount : 0;
-            const percent = totalCount > 0 ? ((presentCount / totalCount) * 100).toFixed(2) : '0.00';
-
-            // 4. แสดงผลค่าสรุปสั้น 4 หัวข้อลงใน HTML
-            const totalEl = document.getElementById('summary-total-students');
-            const presentEl = document.getElementById('summary-present-students');
-            const absentEl = document.getElementById('summary-absent-students');
-            const percentEl = document.getElementById('summary-percent-students');
-
-            if (totalEl) totalEl.innerText = toThaiDigits(totalCount);
-            if (presentEl) presentEl.innerText = toThaiDigits(presentCount);
-            if (absentEl) absentEl.innerText = toThaiDigits(absentCount);
-            if (percentEl) percentEl.innerText = toThaiDigits(percent);
-
-            // 5. แสดงข้อมูลในตารางรายชื่อ
-            const tbody = document.getElementById('report-table-tbody');
-            if (!tbody) return;
-            tbody.innerHTML = '';
-
-            if (list.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-stone-400">ไม่พบข้อมูลการสแกนตามเงื่อนไขที่เลือก</td></tr>`;
-                return;
+            let container = document.getElementById('absent-students-by-room-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'absent-students-by-room-container';
+                container.className = 'mt-8 pt-6 border-t-2 border-stone-200';
+                document.getElementById('report-printable-area').appendChild(container);
             }
 
-            list.forEach((item, idx) => {
-                const st = item.student || {};
-                const scanTime = item.scanned_at ? new Date(item.scanned_at).toLocaleTimeString('th-TH') : '-';
-                tbody.innerHTML += `
-            <tr class="hover:bg-rose-50/40 border-b border-stone-200">
-                <td class="p-2 text-center border-r border-stone-300 font-mono">${toThaiDigits(idx + 1)}</td>
-                <td class="p-2 border-r border-stone-300 font-mono font-semibold text-maroon-800">${st.student_id || item.student_id}</td>
-                <td class="p-2 border-r border-stone-300 font-medium">${st.prefix || ''} ${st.first_name || '-'} ${st.last_name || ''}</td>
-                <td class="p-2 border-r border-stone-300 text-stone-600">${st.branch || '-'}</td>
-                <td class="p-2 border-r border-stone-300 text-stone-600">${st.shift || '-'}</td>
-                <td class="p-2 border-r border-stone-300 text-center font-mono">${scanTime}</td>
-                <td class="p-2 text-center">
-                    <span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800">${item.status || 'เข้าร่วมกิจกรรม'}</span>
-                </td>
-            </tr>
-        `;
-            });
+            let html = `
+                <div class="mb-4">
+                    <h4 class="font-bold text-base sm:text-lg text-maroon-900 print:text-lg print-th-saraban">
+                        รายชื่อผู้ไม่เข้าร่วมกิจกรรม (แยกตามรายห้อง)
+                    </h4>
+                    <p class="text-xs text-stone-500 print:text-base print-th-saraban">
+                        จำนวนผู้ไม่เข้าร่วมกิจกรรมทั้งหมด ${toThaiDigits(absentList.length)} คน
+                    </p>
+                </div>
+            `;
 
-            if (window.lucide) lucide.createIcons();
+            if (Object.keys(roomGroup).length === 0) {
+                html += `<p class="text-xs text-stone-400 py-4 text-center border rounded-xl bg-stone-50">ไม่มีผู้ที่ไม่เข้าร่วมกิจกรรม</p>`;
+            } else {
+                html += `<div class="space-y-4">`;
+                for (const [roomTitle, students] of Object.entries(roomGroup)) {
+                    html += `
+                        <div class="bg-rose-50/50 border border-rose-200 rounded-xl p-3 print:border-stone-800 print:bg-transparent">
+                            <div class="font-bold text-xs sm:text-sm text-maroon-900 mb-2 border-b border-rose-200 pb-1 print:text-base print-th-saraban print:border-stone-800">
+                                 ${roomTitle}  <span class="text-rose-700 print:text-black font-semibold">ไม่เข้าร่วม ${toThaiDigits(students.length)} คน</span>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                    `;
+                    students.forEach((st, idx) => {
+                        html += `
+                            <div class="bg-white p-2 rounded-lg border border-rose-100 text-xs print:border-none print:p-0 print-th-saraban flex items-center justify-between">
+                                <span class="font-mono text-stone-400 mr-1">${toThaiDigits(idx + 1)}.</span>
+                                <span class="font-medium text-stone-800 flex-1 truncate">${st.prefix}${st.first_name} ${st.last_name}</span>
+                                <span class="font-mono text-xs text-maroon-800 font-semibold ml-2">${st.student_id}</span>
+                            </div>
+                        `;
+                    });
+                    html += `</div></div>`;
+                }
+                html += `</div>`;
+            }
+
+            container.innerHTML = html;
         }
 
         function printReportView() {
@@ -2194,10 +2224,26 @@
             }
             pa.classList.add('print-th-saraban');
 
+            // สั่งโหลดและประมวลผลข้อมูล
             loadReportData(true);
 
             setTimeout(() => {
+                // ✅ แปลงตัวเลขอารบิกทุกตัวในพื้นที่พิมพ์รายงานให้กลายเป็นเลขไทยโดยอัตโนมัติ
+                const walkAndConvert = (node) => {
+                    if (node.nodeType === Node.TEXT_NODE) {
+                        node.nodeValue = node.nodeValue.replace(/[0-9]/g, d => '๐๑๒๓๔๕๖๗๘๙'[d]);
+                    } else {
+                        // ข้ามช่อง Select/Input no-print
+                        if (node.classList && node.classList.contains('no-print')) return;
+                        for (let child of node.childNodes) {
+                            walkAndConvert(child);
+                        }
+                    }
+                };
+                walkAndConvert(pa);
+
                 window.print();
+
                 setTimeout(() => {
                     document.body.classList.remove('printing-report');
                     pa.classList.remove('print-th-saraban');
@@ -2215,7 +2261,6 @@
                 return;
             }
 
-            // เรียงตามระดับชั้นและห้อง
             list.sort((a, b) => {
                 const levelCmp = (a.class_level || '').localeCompare(b.class_level || '');
                 if (levelCmp !== 0) return levelCmp;
@@ -2241,7 +2286,6 @@
             if (window.lucide) lucide.createIcons();
         }
 
-        // ฟังก์ชันเปิด Modal พร้อมแสดงข้อมูลเก่า
         function editStudent(id) {
             const s = studentsCache.find(x => x.id === id);
             if (!s) return;
@@ -2256,34 +2300,6 @@
             document.getElementById('stud-shift').value = s.shift;
             document.getElementById('student-modal-title').innerText = 'แก้ไขข้อมูลนักศึกษา';
             document.getElementById('student-modal').classList.remove('hidden');
-        }
-
-        // แก้ไขฟังก์ชันบันทึกเพื่อรองรับการอัปเดต (Upsert)
-        async function handleStudentSubmit(e) {
-            e.preventDefault();
-            showLoader('กำลังบันทึกนักศึกษา...');
-            const payload = {
-                student_id: document.getElementById('stud-code').value.trim(),
-                prefix: document.getElementById('stud-prefix').value,
-                first_name: document.getElementById('stud-fname').value.trim(),
-                last_name: document.getElementById('stud-lname').value.trim(),
-                branch: document.getElementById('stud-branch').value.trim(),
-                class_level: document.getElementById('stud-level').value,
-                room: document.getElementById('stud-room').value.trim(),
-                shift: document.getElementById('stud-shift').value
-            };
-
-            const editId = document.getElementById('stud-edit-id').value;
-            if (editId) payload.id = editId;
-
-            const { error } = await sbClient.from('students').upsert([payload]);
-            hideLoader();
-            if (error) showToast(`บันทึกไม่สำเร็จ: ${error.message}`, 'error');
-            else {
-                showToast('บันทึกข้อมูลเรียบร้อย');
-                closeStudentModal();
-                await fetchStudents();
-            }
         }
 
         function filterStudentsTable() {
@@ -2313,7 +2329,11 @@
                 room: document.getElementById('stud-room').value.trim(),
                 shift: document.getElementById('stud-shift').value
             };
-            const { error } = await sbClient.from('students').insert([payload]);
+
+            const editId = document.getElementById('stud-edit-id').value;
+            if (editId) payload.id = editId;
+
+            const { error } = await sbClient.from('students').upsert([payload]);
             hideLoader();
             if (error) showToast(`บันทึกไม่สำเร็จ: ${error.message}`, 'error');
             else {
@@ -2442,6 +2462,15 @@
             document.getElementById('activity-modal').classList.remove('hidden');
         }
 
+        function openActivityModal() {
+            document.getElementById('activity-form').reset();
+            document.getElementById('act-edit-id').value = '';
+            document.getElementById('act-date').value = new Date().toISOString().split('T')[0];
+            document.getElementById('act-modal-title').innerText = 'เพิ่มกิจกรรมใหม่';
+            document.getElementById('activity-modal').classList.remove('hidden');
+        }
+        function closeActivityModal() { document.getElementById('activity-modal').classList.add('hidden'); }
+
         async function handleActivitySubmit(e) {
             e.preventDefault();
             showLoader('กำลังบันทึกกิจกรรม...');
@@ -2457,33 +2486,6 @@
             if (editId) payload.id = editId;
 
             const { error } = await sbClient.from('activities').upsert([payload]);
-            hideLoader();
-            if (error) showToast(`บันทึกไม่สำเร็จ: ${error.message}`, 'error');
-            else {
-                showToast('บันทึกกิจกรรมเรียบร้อยแล้ว');
-                closeActivityModal();
-                await fetchActivities();
-            }
-        }
-
-        function openActivityModal() {
-            document.getElementById('activity-form').reset();
-            document.getElementById('act-date').value = new Date().toISOString().split('T')[0];
-            document.getElementById('activity-modal').classList.remove('hidden');
-        }
-        function closeActivityModal() { document.getElementById('activity-modal').classList.add('hidden'); }
-
-        async function handleActivitySubmit(e) {
-            e.preventDefault();
-            showLoader('กำลังบันทึกกิจกรรม...');
-            const payload = {
-                activity_code: document.getElementById('act-code').value.trim(),
-                activity_name: document.getElementById('act-name').value.trim(),
-                activity_date: document.getElementById('act-date').value,
-                location: document.getElementById('act-location').value.trim(),
-                status: document.getElementById('act-status').value
-            };
-            const { error } = await sbClient.from('activities').insert([payload]);
             hideLoader();
             if (error) showToast(`บันทึกไม่สำเร็จ: ${error.message}`, 'error');
             else {
@@ -2640,9 +2642,7 @@
             }, 2000);
         }
 
-        function onCameraScanError(errorMessage) {
-            // ไม่ต้องแสดง error ทุกครั้ง
-        }
+        function onCameraScanError(errorMessage) { }
 
         async function closeCameraScanner() {
             const modal = document.getElementById('camera-scanner-modal');
@@ -2664,7 +2664,6 @@
             lastScanTime = 0;
         }
 
-        // ปิดกล้องอัตโนมัติเมื่อสลับ view
         const originalSwitchView = switchView;
         switchView = function (viewName) {
             if (viewName !== 'scan' && html5QrCode) {
