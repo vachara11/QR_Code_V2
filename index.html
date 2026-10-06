@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#5c0f18">
     <title>ระบบลงทะเบียนเข้าร่วมกิจกรรม อวท. วิทยาลัยเทคโนโลยีพงษ์สวัสดิ์</title>
 
     <!-- Font Kanit & Sarabun (สำหรับพิมพ์บัตร/รายงาน) -->
@@ -60,6 +61,10 @@
             border-radius: 4px;
         }
 
+        /* ซ่อน scrollbar แนวนอนของ Mobile Nav */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
         .id-card-cr80 {
             width: 85.6mm;
             height: 54mm;
@@ -77,6 +82,26 @@
 
         .print-th-saraban {
             font-size: 16px !important;
+        }
+
+        /* ===== Mobile Optimizations ===== */
+        @media (max-width: 767.98px) {
+            /* กัน iOS auto-zoom เวลากรอกข้อมูล */
+            input, select, textarea {
+                font-size: 16px !important;
+            }
+            /* Safe area สำหรับ iPhone */
+            .mobile-safe-bottom {
+                padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 4px);
+            }
+            .mobile-header-safe {
+                padding-top: env(safe-area-inset-top, 0px);
+            }
+            /* บัตร CR80 ย่อขนาดบนจอเล็กมาก */
+            .id-card-cr80 {
+                transform: scale(0.92);
+                transform-origin: top left;
+            }
         }
 
         /* Fix White Screen Print Mode */
@@ -165,19 +190,19 @@
     </div>
 
     <!-- ================= TOAST NOTIFICATION ================= -->
-    <div id="toast-box" class="fixed top-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+    <div id="toast-box" class="fixed top-5 right-5 left-5 sm:left-auto z-50 flex flex-col gap-2 pointer-events-none"></div>
 
     <!-- ================= 0. LOGIN SCREEN ================= -->
     <section id="view-login-screen"
-        class="fixed inset-0 z-40 bg-gradient-to-br from-maroon-950 via-maroon-900 to-stone-900 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl border border-rose-200/20 relative">
+        class="fixed inset-0 z-40 bg-gradient-to-br from-maroon-950 via-maroon-900 to-stone-900 flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-rose-200/20 relative my-auto">
             <div class="text-center mb-6">
-                <div class="h-20 flex items-center justify-center mb-3">
+                <div class="h-16 sm:h-20 flex items-center justify-center mb-3">
                     <img src="https://aftpsc.site/font_end/image/aft_logo.png" alt="โลโก้ อวท."
                         class="h-full object-contain filter drop-shadow"
                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-16 h-16 rounded-2xl bg-maroon-800 text-white font-bold text-2xl flex items-center justify-center shadow\'>อวท.</div>';">
                 </div>
-                <h2 class="text-xl font-bold text-stone-900">เข้าสู่ระบบ อวท.</h2>
+                <h2 class="text-lg sm:text-xl font-bold text-stone-900">เข้าสู่ระบบ อวท.</h2>
                 <p class="text-xs text-stone-600 mt-1">วิทยาลัยเทคโนโลยีพงษ์สวัสดิ์</p>
             </div>
 
@@ -186,8 +211,8 @@
                     <label class="block text-xs font-semibold text-stone-700 mb-1.5">ชื่อผู้ใช้งาน (Username)</label>
                     <div class="relative">
                         <input type="text" id="login-username" required placeholder="admin หรือ user"
-                            class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-stone-300 text-sm focus:ring-2 focus:ring-maroon-700 outline-none">
-                        <i data-lucide="user" class="w-4 h-4 text-stone-400 absolute left-3.5 top-3"></i>
+                            class="w-full pl-10 pr-4 py-3 rounded-xl border border-stone-300 focus:ring-2 focus:ring-maroon-700 outline-none">
+                        <i data-lucide="user" class="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5"></i>
                     </div>
                 </div>
 
@@ -195,12 +220,10 @@
                     <label class="block text-xs font-semibold text-stone-700 mb-1.5">รหัสผ่าน (Password)</label>
                     <div class="relative">
                         <input type="password" id="login-password" required placeholder="••••••••"
-                            class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-stone-300 text-sm focus:ring-2 focus:ring-maroon-700 outline-none">
-                        <i data-lucide="lock" class="w-4 h-4 text-stone-400 absolute left-3.5 top-3"></i>
+                            class="w-full pl-10 pr-4 py-3 rounded-xl border border-stone-300 focus:ring-2 focus:ring-maroon-700 outline-none">
+                        <i data-lucide="lock" class="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5"></i>
                     </div>
                 </div>
-
-                
 
                 <button type="submit"
                     class="w-full py-3 rounded-xl bg-maroon-800 hover:bg-maroon-900 text-white font-semibold text-sm shadow-lg shadow-maroon-900/30 transition flex items-center justify-center gap-2">
@@ -211,7 +234,29 @@
         </div>
     </section>
 
-    <!-- ================= SIDEBAR ================= -->
+    <!-- ================= MOBILE TOP HEADER ================= -->
+    <header id="mobile-top-header"
+        class="md:hidden fixed top-0 left-0 right-0 z-30 bg-gradient-to-r from-maroon-900 via-maroon-800 to-maroon-950 text-white shadow-lg mobile-header-safe hidden">
+        <div class="flex items-center justify-between px-4 py-2.5">
+            <div class="flex items-center gap-2.5 min-w-0">
+                <div class="w-9 h-9 rounded-xl bg-white p-0.5 flex items-center justify-center shadow flex-shrink-0">
+                    <img src="https://aftpsc.site/font_end/image/aft_logo.png" alt="โลโก้ อวท."
+                        class="h-full object-contain">
+                </div>
+                <div class="min-w-0">
+                    <h1 class="text-sm font-bold leading-tight truncate">ระบบสแกน อวท.</h1>
+                    <p id="mob-user-name" class="text-[10px] text-rose-200 truncate leading-tight">-</p>
+                </div>
+            </div>
+            <button onclick="openLogoutModal()"
+                class="p-2 rounded-lg hover:bg-white/10 active:bg-white/20 transition flex-shrink-0"
+                title="ออกจากระบบ">
+                <i data-lucide="log-out" class="w-5 h-5"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- ================= SIDEBAR (Desktop) ================= -->
     <aside id="desktop-sidebar"
         class="hidden md:flex flex-col w-72 bg-gradient-to-b from-maroon-900 via-maroon-800 to-maroon-950 text-white shadow-xl min-h-screen sticky top-0 transition-all duration-300">
         <div class="p-5 border-b border-maroon-700/50 flex items-center gap-3">
@@ -290,35 +335,35 @@
     </aside>
 
     <!-- ================= MAIN CONTENT ================= -->
-    <main class="flex-1 flex flex-col min-w-0 pb-20 md:pb-8">
-        <div class="p-4 md:p-8 max-w-7xl mx-auto w-full">
+    <main class="flex-1 flex flex-col min-w-0 pt-14 md:pt-0 pb-24 md:pb-8">
+        <div class="p-3 sm:p-4 md:p-8 max-w-7xl mx-auto w-full">
 
             <!-- ================= 1. VIEW: SCAN REGISTRATION ================= -->
-            <section id="view-scan" class="view-panel space-y-6">
+            <section id="view-scan" class="view-panel space-y-4 sm:space-y-6">
                 <div
-                    class="bg-white p-5 rounded-2xl shadow-sm border border-stone-200 flex flex-col md:flex-row items-center justify-between gap-4">
+                    class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-stone-200 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 sm:gap-4">
                     <div class="w-full md:w-auto">
                         <label
                             class="block text-xs font-semibold text-stone-500 mb-1">เลือกกิจกรรมสำหรับเปิดรับสแกน:</label>
                         <div class="relative w-full md:w-96">
                             <select id="scan-activity-select" onchange="onActivityChange()"
-                                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-stone-300 bg-stone-50 text-stone-800 font-medium focus:ring-2 focus:ring-maroon-700 text-sm outline-none"></select>
-                            <i data-lucide="calendar" class="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5"></i>
+                                class="w-full pl-10 pr-4 py-3 rounded-xl border border-stone-300 bg-stone-50 text-stone-800 font-medium focus:ring-2 focus:ring-maroon-700 outline-none"></select>
+                            <i data-lucide="calendar" class="w-4 h-4 text-stone-400 absolute left-3.5 top-4"></i>
                         </div>
                     </div>
-                    <div class="bg-rose-50 border border-maroon-200 px-6 py-2 rounded-2xl text-center">
+                    <div class="bg-rose-50 border border-maroon-200 px-4 py-2.5 rounded-2xl text-center">
                         <span class="text-xs text-maroon-800 font-medium">สแกนแล้วทั้งสิ้น</span>
-                        <div class="text-2xl font-bold text-maroon-900 leading-none mt-1">
+                        <div class="text-2xl font-bold text-maroon-900 leading-none mt-0.5">
                             <span id="scan-counter">0</span> <span class="text-sm font-normal text-stone-500">คน</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                    <div class="lg:col-span-7 space-y-5">
-                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-stone-200">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-start">
+                    <div class="lg:col-span-7 space-y-4 sm:space-y-5">
+                        <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-stone-200">
                             <label for="scan-input"
-                                class="block text-sm font-bold text-maroon-900 mb-2 flex items-center justify-between">
+                                class="block text-sm font-bold text-maroon-900 mb-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
                                 <span>ช่องป้อนรหัสนักศึกษา / สแกนบาร์โค้ด</span>
                                 <span class="text-xs font-normal text-emerald-600 flex items-center gap-1">
                                     <i data-lucide="volume-2" class="w-3.5 h-3.5"></i> เปิดระบบเสียงพูดอัตโนมัติ
@@ -326,14 +371,13 @@
                             </label>
                             <div class="relative">
                                 <input type="text" id="scan-input"
-                                    placeholder="ยิงบาร์โค้ด หรือพิมพ์รหัสแล้วกด Enter..." autofocus autocomplete="off"
-                                    class="w-full pl-11 pr-24 py-3.5 rounded-xl border-2 border-maroon-600 focus:border-maroon-800 focus:ring-4 focus:ring-maroon-100 outline-none text-base font-semibold">
+                                    placeholder="ยิงบาร์โค้ด หรือพิมพ์รหัส..." autofocus autocomplete="off"
+                                    class="w-full pl-11 pr-24 py-3.5 rounded-xl border-2 border-maroon-600 focus:border-maroon-800 focus:ring-4 focus:ring-maroon-100 outline-none font-semibold">
                                 <i data-lucide="barcode" class="w-6 h-6 text-maroon-700 absolute left-3.5 top-3.5"></i>
                                 <button onclick="triggerScanInput()"
-                                    class="absolute right-2 top-2 px-4 py-2 bg-maroon-800 hover:bg-maroon-900 text-white rounded-lg text-xs font-medium">บันทึก</button>
+                                    class="absolute right-2 top-2 px-3 sm:px-4 py-2 bg-maroon-800 hover:bg-maroon-900 text-white rounded-lg text-xs font-medium">บันทึก</button>
                             </div>
 
-                            <!-- ✅ NEW: ปุ่มเปิดกล้องสแกน (แสดงเฉพาะมือถือ/แท็บเล็ต) -->
                             <button onclick="openCameraScanner()"
                                 class="mt-3 w-full py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-lg md:hidden">
                                 <i data-lucide="camera" class="w-5 h-5"></i>
@@ -351,7 +395,7 @@
                                 <h4 class="font-bold text-stone-800 text-sm">ประวัติการสแกนล่าสุดในกิจกรรมนี้</h4>
                             </div>
                             <div class="overflow-x-auto max-h-96 custom-scroll">
-                                <table class="w-full text-left text-xs border-collapse">
+                                <table class="w-full text-left text-xs border-collapse min-w-[560px]">
                                     <thead class="bg-stone-100 text-stone-600 uppercase font-semibold">
                                         <tr>
                                             <th class="p-3">เวลา</th>
@@ -370,7 +414,7 @@
 
                     <div class="lg:col-span-5">
                         <div id="scanner-state-card"
-                            class="bg-white rounded-2xl shadow-sm border-2 border-dashed border-stone-300 p-8 text-center min-h-[380px] flex flex-col items-center justify-center">
+                            class="bg-white rounded-2xl shadow-sm border-2 border-dashed border-stone-300 p-6 sm:p-8 text-center min-h-[300px] sm:min-h-[380px] flex flex-col items-center justify-center">
                             <div
                                 class="w-16 h-16 rounded-full bg-rose-50 text-maroon-700 flex items-center justify-center mb-3">
                                 <i data-lucide="scan-line" class="w-8 h-8 animate-bounce"></i>
@@ -387,7 +431,7 @@
                                     class="text-xs font-semibold bg-emerald-500 text-white px-2.5 py-0.5 rounded-full">ลงทะเบียนสำเร็จ</span>
                                 <span id="card-scanned-time" class="text-xs text-rose-200">--:--:--</span>
                             </div>
-                            <div class="p-6 flex flex-col items-center text-center">
+                            <div class="p-5 sm:p-6 flex flex-col items-center text-center">
                                 <h4 id="card-student-name" class="text-lg font-bold text-stone-900 mt-2">-</h4>
                                 <p id="card-student-id" class="text-maroon-800 font-mono font-bold text-base mt-0.5">-
                                 </p>
@@ -407,17 +451,17 @@
             </section>
 
             <!-- ================= 2. VIEW: DASHBOARD ================= -->
-            <section id="view-landing" class="view-panel hidden space-y-6">
-                <div id="dashboard-printable-area" class="space-y-6">
+            <section id="view-landing" class="view-panel hidden space-y-4 sm:space-y-6">
+                <div id="dashboard-printable-area" class="space-y-4 sm:space-y-6">
                     <div
-                        class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-stone-200 pb-4 no-print">
+                        class="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-4 border-b border-stone-200 pb-4 no-print">
                         <div>
-                            <h2 class="text-xl font-bold text-stone-900">แดชบอร์ดภาพรวมการเข้าร่วมกิจกรรม</h2>
+                            <h2 class="text-lg sm:text-xl font-bold text-stone-900">แดชบอร์ดภาพรวมการเข้าร่วมกิจกรรม</h2>
                             <p class="text-xs text-stone-500">องค์การนักวิชาชีพในอนาคตแห่งประเทศไทย (อวท.)
                                 วิทยาลัยเทคโนโลยีพงษ์สวัสดิ์</p>
                         </div>
                         <button onclick="printDashboardView()"
-                            class="px-4 py-2 rounded-xl bg-stone-800 hover:bg-stone-900 text-white text-xs font-medium flex items-center gap-2 shadow">
+                            class="w-full md:w-auto px-4 py-2 rounded-xl bg-stone-800 hover:bg-stone-900 text-white text-xs font-medium flex items-center justify-center gap-2 shadow">
                             <i data-lucide="printer" class="w-4 h-4"></i>
                             <span>สั่งพิมพ์แดชบอร์ด</span>
                         </button>
@@ -425,17 +469,17 @@
 
                     <!-- Multi-Filter Toolbar -->
                     <div
-                        class="bg-white p-4 rounded-2xl shadow-sm border border-stone-200 grid grid-cols-1 sm:grid-cols-4 gap-3 no-print">
+                        class="bg-white p-3 sm:p-4 rounded-2xl shadow-sm border border-stone-200 grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 no-print">
                         <div>
                             <label class="block text-[11px] font-semibold text-stone-600 mb-1">เลือกกิจกรรม:</label>
                             <select id="dash-filter-act" onchange="updateDashboardAnalytics()"
-                                class="w-full px-3 py-2 rounded-xl border text-xs font-medium"></select>
+                                class="w-full px-2 sm:px-3 py-2 rounded-xl border text-xs font-medium"></select>
                         </div>
                         <div>
                             <label class="block text-[11px] font-semibold text-stone-600 mb-1">รอบการเรียน:</label>
                             <select id="dash-filter-shift" onchange="updateDashboardAnalytics()"
-                                class="w-full px-3 py-2 rounded-xl border text-xs">
-                                <option value="">ทุกรอบ (เช้าและบ่าย)</option>
+                                class="w-full px-2 sm:px-3 py-2 rounded-xl border text-xs">
+                                <option value="">ทุกรอบ</option>
                                 <option value="รอบเช้า">เฉพาะรอบเช้า</option>
                                 <option value="รอบบ่าย">เฉพาะรอบบ่าย</option>
                             </select>
@@ -443,7 +487,7 @@
                         <div>
                             <label class="block text-[11px] font-semibold text-stone-600 mb-1">ระดับชั้น:</label>
                             <select id="dash-filter-level" onchange="updateDashboardAnalytics()"
-                                class="w-full px-3 py-2 rounded-xl border text-xs">
+                                class="w-full px-2 sm:px-3 py-2 rounded-xl border text-xs">
                                 <option value="">ทุกระดับชั้น</option>
                                 <option value="ปวช. 1">ปวช. 1</option>
                                 <option value="ปวช. 2">ปวช. 2</option>
@@ -455,89 +499,88 @@
                         <div>
                             <label class="block text-[11px] font-semibold text-stone-600 mb-1">สาขาวิชา:</label>
                             <select id="dash-filter-branch" onchange="updateDashboardAnalytics()"
-                                class="w-full px-3 py-2 rounded-xl border text-xs">
+                                class="w-full px-2 sm:px-3 py-2 rounded-xl border text-xs">
                                 <option value="">ทุกสาขาวิชา</option>
                             </select>
                         </div>
                     </div>
 
-                    <!-- KPI Metric Cards (Thai Numerals) -->
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 no-print">
-                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-stone-200">
+                    <!-- KPI Metric Cards -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 no-print">
+                        <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-stone-200">
                             <p class="text-xs text-stone-500">ผู้ลงทะเบียนในเงื่อนไข</p>
-                            <h3 id="dash-stat-total" class="text-3xl font-bold text-stone-800 mt-1">๐ คน</h3>
+                            <h3 id="dash-stat-total" class="text-2xl sm:text-3xl font-bold text-stone-800 mt-1">๐ คน</h3>
                         </div>
-                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-stone-200">
+                        <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-stone-200">
                             <p class="text-xs text-amber-700 font-medium">รอบเช้า</p>
-                            <h3 id="dash-stat-morning" class="text-3xl font-bold text-amber-600 mt-1">๐ คน</h3>
+                            <h3 id="dash-stat-morning" class="text-2xl sm:text-3xl font-bold text-amber-600 mt-1">๐ คน</h3>
                         </div>
-                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-stone-200">
+                        <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-stone-200">
                             <p class="text-xs text-indigo-700 font-medium">รอบบ่าย</p>
-                            <h3 id="dash-stat-afternoon" class="text-3xl font-bold text-indigo-600 mt-1">๐ คน</h3>
+                            <h3 id="dash-stat-afternoon" class="text-2xl sm:text-3xl font-bold text-indigo-600 mt-1">๐ คน</h3>
                         </div>
-                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-stone-200">
+                        <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-stone-200">
                             <p class="text-xs text-emerald-700 font-medium">สาขาที่เข้าร่วมสูงสุด</p>
-                            <h3 id="dash-stat-topbranch" class="text-base font-bold text-stone-800 mt-2 truncate">-</h3>
+                            <h3 id="dash-stat-topbranch" class="text-sm sm:text-base font-bold text-stone-800 mt-2 truncate">-</h3>
                         </div>
                     </div>
 
-                    <!-- NEW: Status Summary Cards -->
-                    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 no-print">
-                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-emerald-200">
+                    <!-- Status Summary Cards -->
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 sm:gap-4 no-print">
+                        <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-200">
                             <p class="text-xs text-emerald-700 font-medium">เข้าร่วมกิจกรรม</p>
-                            <h3 id="dash-stat-present" class="text-3xl font-bold text-emerald-600 mt-1">๐ คน</h3>
+                            <h3 id="dash-stat-present" class="text-2xl sm:text-3xl font-bold text-emerald-600 mt-1">๐ คน</h3>
                         </div>
-                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-rose-200">
+                        <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-rose-200">
                             <p class="text-xs text-rose-700 font-medium">ไม่เข้าร่วม</p>
-                            <h3 id="dash-stat-absent" class="text-3xl font-bold text-rose-600 mt-1">๐ คน</h3>
+                            <h3 id="dash-stat-absent" class="text-2xl sm:text-3xl font-bold text-rose-600 mt-1">๐ คน</h3>
                         </div>
-                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-amber-200">
+                        <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-amber-200">
                             <p class="text-xs text-amber-700 font-medium">ลา (ป่วย/กิจ)</p>
-                            <h3 id="dash-stat-leave" class="text-3xl font-bold text-amber-600 mt-1">๐ คน</h3>
+                            <h3 id="dash-stat-leave" class="text-2xl sm:text-3xl font-bold text-amber-600 mt-1">๐ คน</h3>
                         </div>
-                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-purple-200">
+                        <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-purple-200">
                             <p class="text-xs text-purple-700 font-medium">กิจกรรมวิทยาลัย</p>
-                            <h3 id="dash-stat-activity" class="text-3xl font-bold text-purple-600 mt-1">๐ คน</h3>
+                            <h3 id="dash-stat-activity" class="text-2xl sm:text-3xl font-bold text-purple-600 mt-1">๐ คน</h3>
                         </div>
-                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-orange-200">
+                        <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-orange-200">
                             <p class="text-xs text-orange-700 font-medium">มาสาย</p>
-                            <h3 id="dash-stat-late" class="text-3xl font-bold text-orange-600 mt-1">๐ คน</h3>
+                            <h3 id="dash-stat-late" class="text-2xl sm:text-3xl font-bold text-orange-600 mt-1">๐ คน</h3>
                         </div>
                     </div>
 
                     <!-- Charts -->
-                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 no-print">
-                        <div class="lg:col-span-8 bg-white p-6 rounded-2xl shadow-sm border border-stone-200">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 no-print">
+                        <div class="lg:col-span-8 bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-stone-200">
                             <h3 class="font-bold text-stone-800 text-sm mb-4">สถิติการเข้าร่วมแยกตามสาขาวิชา</h3>
-                            <div class="w-full h-72">
+                            <div class="w-full h-64 sm:h-72">
                                 <canvas id="chart-branch"></canvas>
                             </div>
                         </div>
-                        <div class="lg:col-span-4 bg-white p-6 rounded-2xl shadow-sm border border-stone-200">
+                        <div class="lg:col-span-4 bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-stone-200">
                             <h3 class="font-bold text-stone-800 text-sm mb-4">สัดส่วนรอบเช้า vs รอบบ่าย</h3>
-                            <div class="w-full h-72 flex items-center justify-center">
+                            <div class="w-full h-64 sm:h-72 flex items-center justify-center">
                                 <canvas id="chart-shift"></canvas>
                             </div>
                         </div>
                     </div>
 
-                    <!-- พิ้นที่สร้างตารางสรุปเมื่อสั่ง Print Dashboard -->
                     <div id="dashboard-print-table-container" class="hidden print:block w-full mt-6"></div>
 
                 </div>
             </section>
 
             <!-- ================= 3. VIEW: STUDENT CARDS ================= -->
-            <section id="view-cards" class="view-panel hidden space-y-6">
+            <section id="view-cards" class="view-panel hidden space-y-4 sm:space-y-6">
                 <div
-                    class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-stone-200 pb-4 no-print">
+                    class="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-4 border-b border-stone-200 pb-4 no-print">
                     <div>
-                        <h2 class="text-xl font-bold text-stone-900">สร้างบัตรลงทะเบียนเข้าร่วมกิจกรรม (ขนาด CR80)</h2>
+                        <h2 class="text-lg sm:text-xl font-bold text-stone-900">สร้างบัตรลงทะเบียนเข้าร่วมกิจกรรม (ขนาด CR80)</h2>
                         <p class="text-xs text-stone-500">บัตรลงทะเบียนเข้าร่วมกิจกรรม อวท.วิทยาลัยเทคโนโลยีพงษ์สวัสดิ์
                         </p>
                     </div>
                     <button onclick="printCardsView()"
-                        class="px-4 py-2.5 rounded-xl bg-stone-800 hover:bg-stone-900 text-white font-medium text-xs flex items-center gap-2 shadow transition">
+                        class="w-full md:w-auto px-4 py-2.5 rounded-xl bg-stone-800 hover:bg-stone-900 text-white font-medium text-xs flex items-center justify-center gap-2 shadow transition">
                         <i data-lucide="printer" class="w-4 h-4"></i>
                         <span>สั่งพิมพ์บัตรนักศึกษา</span>
                     </button>
@@ -545,11 +588,11 @@
 
                 <!-- Filter Toolset -->
                 <div
-                    class="bg-white p-4 rounded-2xl shadow-sm border border-stone-200 grid grid-cols-2 sm:grid-cols-5 gap-3 no-print">
+                    class="bg-white p-3 sm:p-4 rounded-2xl shadow-sm border border-stone-200 grid grid-cols-2 md:grid-cols-5 gap-2 sm:gap-3 no-print">
                     <div>
                         <label class="block text-[11px] font-semibold text-stone-600 mb-1">ระดับชั้น:</label>
                         <select id="card-filter-level" onchange="renderCardsByFilter()"
-                            class="w-full px-2.5 py-2 rounded-xl border text-xs">
+                            class="w-full px-2 py-2 rounded-xl border text-xs">
                             <option value="">ทั้งหมด</option>
                             <option value="ปวช. 1">ปวช. 1</option>
                             <option value="ปวช. 2">ปวช. 2</option>
@@ -561,14 +604,14 @@
                     <div>
                         <label class="block text-[11px] font-semibold text-stone-600 mb-1">สาขาวิชา:</label>
                         <select id="card-filter-branch" onchange="renderCardsByFilter()"
-                            class="w-full px-2.5 py-2 rounded-xl border text-xs">
+                            class="w-full px-2 py-2 rounded-xl border text-xs">
                             <option value="">ทั้งหมด</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-[11px] font-semibold text-stone-600 mb-1">ห้อง:</label>
                         <select id="card-filter-room" onchange="renderCardsByFilter()"
-                            class="w-full px-2.5 py-2 rounded-xl border text-xs">
+                            class="w-full px-2 py-2 rounded-xl border text-xs">
                             <option value="">ทั้งหมด</option>
                             <option value="1">ห้อง 1</option>
                             <option value="2">ห้อง 2</option>
@@ -578,36 +621,38 @@
                     <div>
                         <label class="block text-[11px] font-semibold text-stone-600 mb-1">รอบการเรียน:</label>
                         <select id="card-filter-shift" onchange="renderCardsByFilter()"
-                            class="w-full px-2.5 py-2 rounded-xl border text-xs">
+                            class="w-full px-2 py-2 rounded-xl border text-xs">
                             <option value="">ทั้งหมด</option>
                             <option value="รอบเช้า">รอบเช้า</option>
                             <option value="รอบบ่าย">รอบบ่าย</option>
                         </select>
                     </div>
-                    <div>
+                    <div class="col-span-2 md:col-span-1">
                         <label class="block text-[11px] font-semibold text-stone-600 mb-1">เลือกเฉพาะคน:</label>
                         <select id="card-filter-single" onchange="renderCardsByFilter(true)"
-                            class="w-full px-2.5 py-2 rounded-xl border text-xs">
-                            <option value="">-- ทั้งหมดตามเงื่อนไข --</option>
+                            class="w-full px-2 py-2 rounded-xl border text-xs">
+                            <option value="">-- ทั้งหมด --</option>
                         </select>
                     </div>
                 </div>
 
-                <!-- Printing Area / Card Gallery (CR80 Real Card Size) -->
-                <div id="cards-print-zone" class="flex flex-wrap gap-6 justify-center p-2"></div>
+                <!-- Printing Area / Card Gallery -->
+                <div class="w-full overflow-x-auto">
+                    <div id="cards-print-zone" class="flex flex-wrap gap-4 sm:gap-6 justify-center p-2"></div>
+                </div>
             </section>
 
             <!-- ================= 4. VIEW: REPORTS ================= -->
-            <section id="view-reports" class="view-panel hidden space-y-6">
+            <section id="view-reports" class="view-panel hidden space-y-4 sm:space-y-6">
                 <div
-                    class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-stone-200 pb-4 no-print">
+                    class="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-4 border-b border-stone-200 pb-4 no-print">
                     <div>
-                        <h2 class="text-xl font-bold text-stone-900">ใบเซ็นชื่อและรายงานการเข้าร่วมกิจกรรม</h2>
+                        <h2 class="text-lg sm:text-xl font-bold text-stone-900">ใบเซ็นชื่อและรายงานการเข้าร่วมกิจกรรม</h2>
                         <p class="text-xs text-stone-500">ปรับสถานะการเข้าร่วม (เข้าร่วม/ไม่เข้าร่วม/ลา/กิจกรรม/สาย)
                             และสั่งพิมพ์ตามเงื่อนไข</p>
                     </div>
                     <button onclick="printReportView()"
-                        class="px-4 py-2.5 rounded-xl bg-stone-800 hover:bg-stone-900 text-white text-xs font-medium flex items-center gap-2 shadow">
+                        class="w-full md:w-auto px-4 py-2.5 rounded-xl bg-stone-800 hover:bg-stone-900 text-white text-xs font-medium flex items-center justify-center gap-2 shadow">
                         <i data-lucide="printer" class="w-4 h-4"></i>
                         <span>สั่งพิมพ์ใบรายงาน</span>
                     </button>
@@ -615,23 +660,23 @@
 
                 <!-- Report Filter Toolbar -->
                 <div
-                    class="bg-white p-4 rounded-2xl shadow-sm border border-stone-200 grid grid-cols-1 sm:grid-cols-4 gap-3 no-print">
-                    <div>
+                    class="bg-white p-3 sm:p-4 rounded-2xl shadow-sm border border-stone-200 grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 no-print">
+                    <div class="col-span-2 md:col-span-1">
                         <label class="block text-[11px] font-semibold text-stone-600 mb-1">เลือกกิจกรรม:</label>
                         <select id="report-activity-select" onchange="loadReportData()"
-                            class="w-full px-3 py-2 rounded-xl border text-xs"></select>
+                            class="w-full px-2 sm:px-3 py-2 rounded-xl border text-xs"></select>
                     </div>
                     <div>
                         <label class="block text-[11px] font-semibold text-stone-600 mb-1">สาขาวิชา:</label>
                         <select id="report-filter-branch" onchange="loadReportData()"
-                            class="w-full px-3 py-2 rounded-xl border text-xs">
+                            class="w-full px-2 sm:px-3 py-2 rounded-xl border text-xs">
                             <option value="">ทุกสาขาวิชา</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-[11px] font-semibold text-stone-600 mb-1">ระดับชั้น:</label>
                         <select id="report-filter-level" onchange="loadReportData()"
-                            class="w-full px-3 py-2 rounded-xl border text-xs">
+                            class="w-full px-2 sm:px-3 py-2 rounded-xl border text-xs">
                             <option value="">ทุกระดับชั้น</option>
                             <option value="ปวช. 1">ปวช. 1</option>
                             <option value="ปวช. 2">ปวช. 2</option>
@@ -643,23 +688,22 @@
                     <div>
                         <label class="block text-[11px] font-semibold text-stone-600 mb-1">รอบการเรียน:</label>
                         <select id="report-filter-shift" onchange="loadReportData()"
-                            class="w-full px-3 py-2 rounded-xl border text-xs">
-                            <option value="">ทุกรอบ (เช้า/บ่าย)</option>
+                            class="w-full px-2 sm:px-3 py-2 rounded-xl border text-xs">
+                            <option value="">ทุกรอบ</option>
                             <option value="รอบเช้า">รอบเช้า</option>
                             <option value="รอบบ่าย">รอบบ่าย</option>
                         </select>
                     </div>
                 </div>
 
-                <!-- ✅ Printable Document Style (มี id ครบแล้ว) -->
                 <div id="report-printable-area"
-                    class="bg-white p-8 rounded-2xl shadow-sm border border-stone-200 print-th-saraban">
+                    class="bg-white p-4 sm:p-8 rounded-2xl shadow-sm border border-stone-200 print-th-saraban">
                     <div class="flex flex-col items-center justify-center border-b border-stone-200 pb-4 mb-4">
                         <img src="https://aftpsc.site/font_end/image/aft_logo.png" alt="Logo อวท."
                             class="h-16 w-auto mb-3 hidden print:block">
-                        <h3 class="text-lg font-bold text-stone-900 print:text-xl print-th-saraban">
+                        <h3 class="text-base sm:text-lg font-bold text-stone-900 print:text-xl print-th-saraban text-center">
                             ใบลงชื่อและบันทึกสถานะการเข้าร่วมกิจกรรม</h3>
-                        <p class="text-xs text-stone-500 print:text-lg print-th-saraban">
+                        <p class="text-xs text-stone-500 print:text-lg print-th-saraban text-center">
                             องค์การนักวิชาชีพในอนาคตแห่งประเทศไทย (อวท.) วิทยาลัยเทคโนโลยีพงษ์สวัสดิ์</p>
                         <p id="report-activity-title"
                             class="text-sm font-semibold text-maroon-800 mt-2 print:text-lg print-th-saraban text-center">
@@ -727,8 +771,8 @@
                         </div>
                     </div>
 
-                    <div class="overflow-x-auto mt-4">
-                        <table class="w-full text-left text-xs border border-stone-300">
+                    <div class="overflow-x-auto mt-4 -mx-4 px-4 sm:mx-0 sm:px-0">
+                        <table class="w-full text-left text-xs border border-stone-300 min-w-[640px]">
                             <thead class="bg-stone-100 text-stone-700">
                                 <tr class="border-b border-stone-300">
                                     <th class="p-2 border-r border-stone-300 text-center w-12">ลำดับ</th>
@@ -746,7 +790,7 @@
 
                     <div class="mt-8 flex justify-end">
                         <div
-                            class="text-center w-64 text-xs space-y-5 print:text-[16px] print:font-bold print-th-saraban">
+                            class="text-center w-full sm:w-64 text-xs space-y-5 print:text-[16px] print:font-bold print-th-saraban">
                             <p>ลงชื่อ....................................................</p>
                             <p>(......................................................)</p>
                             <p>วันที่ .......... / .......... / ..............</p>
@@ -756,33 +800,33 @@
             </section>
 
             <!-- ================= 5. VIEW: STUDENT MANAGEMENT ================= -->
-            <section id="view-students" class="view-panel hidden space-y-6">
-                <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+            <section id="view-students" class="view-panel hidden space-y-4 sm:space-y-6">
+                <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3 sm:gap-4">
                     <div>
-                        <h2 class="text-xl font-bold text-stone-900">จัดการข้อมูลนักศึกษา</h2>
+                        <h2 class="text-lg sm:text-xl font-bold text-stone-900">จัดการข้อมูลนักศึกษา</h2>
                         <p class="text-xs text-stone-500">สาขาวิชา, ระดับชั้น, ห้อง และรอบการเรียน (รอบเช้า / รอบบ่าย)
                         </p>
                     </div>
-                    <div class="flex flex-wrap items-center gap-2">
+                    <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 w-full sm:w-auto">
                         <button onclick="downloadStudentTemplate()"
-                            class="px-3 py-2 rounded-xl bg-white hover:bg-stone-50 text-stone-700 border border-stone-300 font-medium text-xs flex items-center gap-1.5 shadow-sm">
+                            class="px-3 py-2 rounded-xl bg-white hover:bg-stone-50 text-stone-700 border border-stone-300 font-medium text-xs flex items-center justify-center gap-1.5 shadow-sm">
                             <i data-lucide="file-down" class="w-4 h-4 text-stone-500"></i>
-                            <span>ไฟล์ตัวอย่าง Excel</span>
+                            <span>ไฟล์ตัวอย่าง</span>
                         </button>
                         <input type="file" id="excel-file-input" accept=".xlsx, .xls, .csv"
                             onchange="handleExcelImport(event)" class="hidden">
                         <button onclick="document.getElementById('excel-file-input').click()"
-                            class="px-3.5 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-medium text-xs flex items-center gap-1.5 shadow-sm">
+                            class="px-3.5 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-medium text-xs flex items-center justify-center gap-1.5 shadow-sm">
                             <i data-lucide="upload" class="w-4 h-4"></i>
                             <span>นำเข้า Excel</span>
                         </button>
                         <button onclick="exportStudentsToExcel()"
-                            class="px-3.5 py-2 rounded-xl bg-stone-800 hover:bg-stone-900 text-white font-medium text-xs flex items-center gap-1.5 shadow-sm">
+                            class="px-3.5 py-2 rounded-xl bg-stone-800 hover:bg-stone-900 text-white font-medium text-xs flex items-center justify-center gap-1.5 shadow-sm">
                             <i data-lucide="download" class="w-4 h-4"></i>
                             <span>ส่งออก Excel</span>
                         </button>
                         <button onclick="openStudentModal()"
-                            class="px-4 py-2 rounded-xl bg-maroon-800 hover:bg-maroon-900 text-white font-medium text-xs flex items-center gap-1.5 shadow-sm">
+                            class="px-3.5 py-2 rounded-xl bg-maroon-800 hover:bg-maroon-900 text-white font-medium text-xs flex items-center justify-center gap-1.5 shadow-sm col-span-2 sm:col-span-1">
                             <i data-lucide="user-plus" class="w-4 h-4"></i>
                             <span>เพิ่มนักศึกษาใหม่</span>
                         </button>
@@ -791,7 +835,7 @@
 
                 <div class="bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden">
                     <div
-                        class="p-4 border-b border-stone-200 bg-stone-50/70 flex flex-wrap items-center justify-between gap-3">
+                        class="p-3 sm:p-4 border-b border-stone-200 bg-stone-50/70 flex flex-wrap items-center justify-between gap-3">
                         <div class="relative w-full sm:w-72">
                             <input type="text" id="search-student-input" onkeyup="filterStudentsTable()"
                                 placeholder="ค้นหารหัส หรือชื่อ-สกุล..."
@@ -805,7 +849,7 @@
                         </button>
                     </div>
                     <div class="overflow-x-auto min-h-[250px]">
-                        <table class="w-full text-left text-xs border-collapse">
+                        <table class="w-full text-left text-xs border-collapse min-w-[640px]">
                             <thead class="bg-stone-100 text-stone-600 uppercase font-semibold">
                                 <tr>
                                     <th class="p-3.5">รหัสนักศึกษา</th>
@@ -823,43 +867,82 @@
             </section>
 
             <!-- ================= 6. VIEW: ACTIVITY MANAGEMENT ================= -->
-            <section id="view-activities" class="view-panel hidden space-y-6">
-                <div class="flex items-center justify-between">
+            <section id="view-activities" class="view-panel hidden space-y-4 sm:space-y-6">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                     <div>
-                        <h2 class="text-xl font-bold text-stone-900">จัดการกิจกรรม อวท.</h2>
+                        <h2 class="text-lg sm:text-xl font-bold text-stone-900">จัดการกิจกรรม อวท.</h2>
                         <p class="text-xs text-stone-500">กำหนดการ สถานะ และรายละเอียดกิจกรรม</p>
                     </div>
                     <button onclick="openActivityModal()"
-                        class="px-4 py-2.5 rounded-xl bg-maroon-800 hover:bg-maroon-900 text-white font-medium text-xs flex items-center gap-1.5 shadow-sm">
+                        class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-maroon-800 hover:bg-maroon-900 text-white font-medium text-xs flex items-center justify-center gap-1.5 shadow-sm">
                         <i data-lucide="plus-circle" class="w-4 h-4"></i>
                         <span>เพิ่มกิจกรรมใหม่</span>
                     </button>
                 </div>
                 <div class="bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden">
-                    <table class="w-full text-left text-xs border-collapse">
-                        <thead class="bg-stone-100 text-stone-600 font-semibold uppercase">
-                            <tr>
-                                <th class="p-3.5">รหัสกิจกรรม</th>
-                                <th class="p-3.5">ชื่อกิจกรรม</th>
-                                <th class="p-3.5">วันที่จัด</th>
-                                <th class="p-3.5">สถานที่</th>
-                                <th class="p-3.5">สถานะ</th>
-                                <th class="p-3.5 text-center">จัดการ</th>
-                            </tr>
-                        </thead>
-                        <tbody id="activities-tbody" class="divide-y divide-stone-200"></tbody>
-                    </table>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse min-w-[640px]">
+                            <thead class="bg-stone-100 text-stone-600 font-semibold uppercase">
+                                <tr>
+                                    <th class="p-3.5">รหัสกิจกรรม</th>
+                                    <th class="p-3.5">ชื่อกิจกรรม</th>
+                                    <th class="p-3.5">วันที่จัด</th>
+                                    <th class="p-3.5">สถานที่</th>
+                                    <th class="p-3.5">สถานะ</th>
+                                    <th class="p-3.5 text-center">จัดการ</th>
+                                </tr>
+                            </thead>
+                            <tbody id="activities-tbody" class="divide-y divide-stone-200"></tbody>
+                        </table>
+                    </div>
                 </div>
             </section>
 
         </div>
     </main>
 
+    <!-- ================= MOBILE BOTTOM NAVIGATION ================= -->
+    <nav id="mobile-bottom-nav"
+        class="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-white border-t-2 border-maroon-100 shadow-[0_-4px_16px_rgba(0,0,0,0.08)] mobile-safe-bottom hidden">
+        <div class="flex items-center justify-around px-1 py-1 overflow-x-auto no-scrollbar">
+            <button onclick="switchView('scan')" data-mob-target="scan"
+                class="mob-nav-btn flex flex-col items-center justify-center gap-0.5 px-2 py-1.5 rounded-xl min-w-[60px] text-stone-500 transition">
+                <i data-lucide="qr-code" class="w-5 h-5"></i>
+                <span class="text-[10px] font-medium">สแกน</span>
+            </button>
+            <button onclick="switchView('landing')" data-mob-target="landing"
+                class="mob-nav-btn flex flex-col items-center justify-center gap-0.5 px-2 py-1.5 rounded-xl min-w-[60px] text-stone-500 transition">
+                <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                <span class="text-[10px] font-medium">แดชบอร์ด</span>
+            </button>
+            <button onclick="switchView('students')" data-mob-target="students"
+                class="mob-nav-btn admin-only-mob hidden flex-col items-center justify-center gap-0.5 px-2 py-1.5 rounded-xl min-w-[60px] text-stone-500 transition">
+                <i data-lucide="users" class="w-5 h-5"></i>
+                <span class="text-[10px] font-medium">นักศึกษา</span>
+            </button>
+            <button onclick="switchView('activities')" data-mob-target="activities"
+                class="mob-nav-btn admin-only-mob hidden flex-col items-center justify-center gap-0.5 px-2 py-1.5 rounded-xl min-w-[60px] text-stone-500 transition">
+                <i data-lucide="calendar" class="w-5 h-5"></i>
+                <span class="text-[10px] font-medium">กิจกรรม</span>
+            </button>
+            <button onclick="switchView('cards')" data-mob-target="cards"
+                class="mob-nav-btn admin-only-mob hidden flex-col items-center justify-center gap-0.5 px-2 py-1.5 rounded-xl min-w-[60px] text-stone-500 transition">
+                <i data-lucide="contact" class="w-5 h-5"></i>
+                <span class="text-[10px] font-medium">บัตร</span>
+            </button>
+            <button onclick="switchView('reports')" data-mob-target="reports"
+                class="mob-nav-btn admin-only-mob hidden flex-col items-center justify-center gap-0.5 px-2 py-1.5 rounded-xl min-w-[60px] text-stone-500 transition">
+                <i data-lucide="file-spreadsheet" class="w-5 h-5"></i>
+                <span class="text-[10px] font-medium">รายงาน</span>
+            </button>
+        </div>
+    </nav>
+
     <!-- ================= MODAL: STUDENT ================= -->
     <div id="student-modal"
-        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl relative">
-            <button onclick="closeStudentModal()" class="absolute top-4 right-4 text-stone-400"><i data-lucide="x"
+        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 hidden overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-5 sm:p-6 shadow-2xl relative my-auto">
+            <button onclick="closeStudentModal()" class="absolute top-4 right-4 text-stone-400 p-1"><i data-lucide="x"
                     class="w-5 h-5"></i></button>
             <h3 id="student-modal-title" class="text-base font-bold text-stone-900 mb-4">ข้อมูลนักศึกษา</h3>
             <form id="student-form" onsubmit="handleStudentSubmit(event)" class="space-y-3 text-xs">
@@ -917,11 +1000,11 @@
                         </select>
                     </div>
                 </div>
-                <div class="flex justify-end gap-2 pt-3">
+                <div class="flex flex-col-reverse sm:flex-row justify-end gap-2 pt-3">
                     <button type="button" onclick="closeStudentModal()"
-                        class="px-4 py-2 rounded-xl bg-stone-100 text-stone-700">ยกเลิก</button>
+                        class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-stone-100 text-stone-700">ยกเลิก</button>
                     <button type="submit"
-                        class="px-5 py-2 rounded-xl bg-maroon-800 text-white font-medium shadow">บันทึก</button>
+                        class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-maroon-800 text-white font-medium shadow">บันทึก</button>
                 </div>
             </form>
         </div>
@@ -929,9 +1012,9 @@
 
     <!-- ================= MODAL: ACTIVITY ================= -->
     <div id="activity-modal"
-        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl relative">
-            <button onclick="closeActivityModal()" class="absolute top-4 right-4 text-stone-400"><i data-lucide="x"
+        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 hidden overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-md w-full p-5 sm:p-6 shadow-2xl relative my-auto">
+            <button onclick="closeActivityModal()" class="absolute top-4 right-4 text-stone-400 p-1"><i data-lucide="x"
                     class="w-5 h-5"></i></button>
             <h3 id="act-modal-title" class="text-base font-bold text-stone-900 mb-4">ข้อมูลกิจกรรม</h3>
             <form id="activity-form" onsubmit="handleActivitySubmit(event)" class="space-y-3 text-xs">
@@ -963,11 +1046,11 @@
                     <label class="block font-semibold mb-1">สถานที่</label>
                     <input type="text" id="act-location" required class="w-full px-3 py-2 rounded-xl border">
                 </div>
-                <div class="flex justify-end gap-2 pt-3">
+                <div class="flex flex-col-reverse sm:flex-row justify-end gap-2 pt-3">
                     <button type="button" onclick="closeActivityModal()"
-                        class="px-4 py-2 rounded-xl bg-stone-100 text-stone-700">ยกเลิก</button>
+                        class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-stone-100 text-stone-700">ยกเลิก</button>
                     <button type="submit"
-                        class="px-5 py-2 rounded-xl bg-maroon-800 text-white font-medium shadow">บันทึก</button>
+                        class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-maroon-800 text-white font-medium shadow">บันทึก</button>
                 </div>
             </form>
         </div>
@@ -979,16 +1062,16 @@
         <div class="bg-white rounded-2xl max-w-xs w-full p-6 shadow-2xl text-center">
             <h4 class="text-base font-bold text-stone-900">จะออกจากระบบไหม?</h4>
             <div class="flex gap-2 mt-4">
-                <button onclick="closeLogoutModal()" class="flex-1 py-2 rounded-xl bg-stone-100 text-xs">ยกเลิก</button>
+                <button onclick="closeLogoutModal()" class="flex-1 py-2.5 rounded-xl bg-stone-100 text-xs">ยกเลิก</button>
                 <button onclick="confirmLogout()"
-                    class="flex-1 py-2 rounded-xl bg-maroon-800 text-white text-xs">ออกจากระบบ</button>
+                    class="flex-1 py-2.5 rounded-xl bg-maroon-800 text-white text-xs">ออกจากระบบ</button>
             </div>
         </div>
     </div>
 
     <!-- ================= MODAL: CAMERA SCANNER ================= -->
     <div id="camera-scanner-modal"
-        class="fixed inset-0 bg-slate-900/90 backdrop-blur-sm z-[60] flex items-center justify-center p-4 hidden">
+        class="fixed inset-0 bg-slate-900/90 backdrop-blur-sm z-[60] flex items-center justify-center p-3 sm:p-4 hidden">
         <div class="bg-white rounded-3xl max-w-lg w-full p-4 shadow-2xl relative">
             <div class="flex items-center justify-between mb-3">
                 <h3 class="text-base font-bold text-stone-900 flex items-center gap-2">
@@ -1051,7 +1134,7 @@
             return `วันที่ ${toThaiDigits(d.getDate())} ${months[d.getMonth()]} พ.ศ. ${toThaiDigits(d.getFullYear() + 543)}`;
         }
 
-        // Web Audio Chime: ระบบสังเคราะห์เสียงสองระดับ ไพเราะ ไม่ต้องใช้ไฟล์
+        // Web Audio Chime
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playScanChime(isSuccess = true) {
             if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -1146,7 +1229,7 @@
             hideLoader();
             if (userFound) {
                 currentUser = userFound;
-                sessionStorage.setItem('authUser', JSON.stringify(currentUser)); // จดจำการเข้าสู่ระบบ
+                sessionStorage.setItem('authUser', JSON.stringify(currentUser));
                 updateAuthUI();
                 switchView('scan');
                 showToast(`ยินดีต้อนรับ ${currentUser.full_name}`);
@@ -1164,20 +1247,35 @@
         function updateAuthUI() {
             const loginScreen = document.getElementById('view-login-screen');
             const desktopSidebar = document.getElementById('desktop-sidebar');
+            const mobileHeader = document.getElementById('mobile-top-header');
+            const mobileNav = document.getElementById('mobile-bottom-nav');
             const adminElements = document.querySelectorAll('.admin-only');
+            const adminMobElements = document.querySelectorAll('.admin-only-mob');
 
             if (!currentUser) {
                 loginScreen.classList.remove('hidden');
                 desktopSidebar.classList.add('hidden');
+                if (mobileHeader) mobileHeader.classList.add('hidden');
+                if (mobileNav) mobileNav.classList.add('hidden');
                 adminElements.forEach(el => el.classList.add('hidden'));
+                adminMobElements.forEach(el => { el.classList.add('hidden'); el.classList.remove('flex'); });
             } else {
                 loginScreen.classList.add('hidden');
                 desktopSidebar.classList.remove('hidden');
+                if (mobileHeader) mobileHeader.classList.remove('hidden');
+                if (mobileNav) mobileNav.classList.remove('hidden');
                 document.getElementById('sb-user-name').innerText = currentUser.full_name;
                 document.getElementById('sb-user-role').innerText = currentUser.role;
+                const mobName = document.getElementById('mob-user-name');
+                if (mobName) mobName.innerText = currentUser.full_name;
 
-                if (currentUser.role === 'admin') adminElements.forEach(el => el.classList.remove('hidden'));
-                else adminElements.forEach(el => el.classList.add('hidden'));
+                if (currentUser.role === 'admin') {
+                    adminElements.forEach(el => el.classList.remove('hidden'));
+                    adminMobElements.forEach(el => { el.classList.remove('hidden'); el.classList.add('flex'); });
+                } else {
+                    adminElements.forEach(el => el.classList.add('hidden'));
+                    adminMobElements.forEach(el => { el.classList.add('hidden'); el.classList.remove('flex'); });
+                }
             }
             if (window.lucide) lucide.createIcons();
         }
@@ -1186,7 +1284,7 @@
         function closeLogoutModal() { document.getElementById('logout-modal').classList.add('hidden'); }
         function confirmLogout() {
             currentUser = null;
-            sessionStorage.removeItem('authUser'); // เคลียร์เมื่อล็อกเอาต์
+            sessionStorage.removeItem('authUser');
             closeLogoutModal();
             document.getElementById('standalone-login-form').reset();
             updateAuthUI();
@@ -1198,6 +1296,7 @@
             const targetView = document.getElementById(`view-${viewName}`);
             if (targetView) targetView.classList.remove('hidden');
 
+            // Desktop sidebar nav
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 if (btn.getAttribute('data-target') === viewName) {
                     btn.classList.add('bg-white/20', 'text-white');
@@ -1205,6 +1304,22 @@
                     btn.classList.remove('bg-white/20', 'text-white');
                 }
             });
+
+            // Mobile bottom nav
+            document.querySelectorAll('.mob-nav-btn').forEach(btn => {
+                if (btn.getAttribute('data-mob-target') === viewName) {
+                    btn.classList.add('text-maroon-800', 'bg-rose-50');
+                    btn.classList.remove('text-stone-500');
+                } else {
+                    btn.classList.remove('text-maroon-800', 'bg-rose-50');
+                    btn.classList.add('text-stone-500');
+                }
+            });
+
+            // Scroll to top on mobile when switching views
+            if (window.innerWidth < 768) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
 
             if (viewName === 'students') fetchStudents();
             else if (viewName === 'activities') fetchActivities();
@@ -1364,9 +1479,7 @@
                 showToast(error.code === '23505' ? 'นักศึกษาลงทะเบียนกิจกรรมนี้ไปแล้ว' : 'บันทึกไม่สำเร็จ', 'warning');
             } else {
                 playScanChime(true);
-                // เพิ่มเสียงพูดภาษาไทย
                 speakThai('คุณได้เข้าร่วมกิจกรรมแล้ว');
-
                 displayScannedStudent(student);
                 showToast(`ลงทะเบียน ${student.first_name} สำเร็จ!`);
                 await loadScanHistory();
@@ -1412,14 +1525,12 @@
             const morningCount = records.filter(r => r.student.shift === 'รอบเช้า').length;
             const afternoonCount = records.filter(r => r.student.shift === 'รอบบ่าย').length;
 
-            // NEW: นับตามสถานะ
             const presentCount = records.filter(r => (r.status || 'เข้าร่วมกิจกรรม') === 'เข้าร่วมกิจกรรม').length;
             const absentCount = records.filter(r => r.status === 'ไม่เข้าร่วม').length;
             const leaveCount = records.filter(r => r.status === 'ลาป่วย' || r.status === 'ลากิจ').length;
             const activityCount = records.filter(r => r.status === 'กิจกรรมวิทยาลัย').length;
             const lateCount = records.filter(r => r.status === 'มาสาย').length;
 
-            // แสดงเป็นเลขไทยทั้งหมด
             document.getElementById('dash-stat-total').innerText = `${toThaiDigits(totalCount)} คน`;
             document.getElementById('dash-stat-morning').innerText = `${toThaiDigits(morningCount)} คน`;
             document.getElementById('dash-stat-afternoon').innerText = `${toThaiDigits(afternoonCount)} คน`;
@@ -1445,40 +1556,30 @@
             renderBranchChart(branchMap);
             renderShiftChart(morningCount, afternoonCount);
 
-            // ฟังก์ชันตารางสรุปสำหรับสั่งพิมพ์
             generateDashboardPrintTable(records);
         }
 
-               // ================= CHART COLOR MAPPING =================
-        // กำหนดสีตามสาขาวิชา
         const BRANCH_COLORS = {
-            'การบัญชี': '#16a34a',                      // สีเขียว
-            'การตลาด': '#dc2626',                       // สีแดง
-            'เทคโนโลยีสารสนเทศ': '#9333ea',            // สีม่วง
-            'ดิจิทัลกราฟิก': '#f97316',                 // สีส้ม
-            'การท่องเที่ยว': '#fde047',                 // สีเหลืองอ่อน
-            'ไมซ์และอีเวนต์': '#ca8a04',                // สีเหลืองเข้ม
-            'อาหารและโชนาการ': '#0ea5e9',               // สีฟ้า
-            'เทคโนโลยีธุรกิจดิจิทัล': '#1e3a8a',        // สีกรม
-            'อุตสาหกรรมแสงและเสียง': '#d1d5db',         // สีเทาอ่อน
-            'เทคโนโลยีระบบเสียง': '#4b5563'             // สีเทาเข้ม
+            'การบัญชี': '#16a34a',
+            'การตลาด': '#dc2626',
+            'เทคโนโลยีสารสนเทศ': '#9333ea',
+            'ดิจิทัลกราฟิก': '#f97316',
+            'การท่องเที่ยว': '#fde047',
+            'ไมซ์และอีเวนต์': '#ca8a04',
+            'อาหารและโชนาการ': '#0ea5e9',
+            'เทคโนโลยีธุรกิจดิจิทัล': '#1e3a8a',
+            'อุตสาหกรรมแสงและเสียง': '#d1d5db',
+            'เทคโนโลยีระบบเสียง': '#4b5563'
         };
 
-        // ฟังก์ชันดึงสีตามชื่อสาขา
         function getBranchColor(branchName) {
             if (!branchName) return '#94a3b8';
-
-            // ตรวจสอบแบบตรงตัวก่อน
             if (BRANCH_COLORS[branchName]) return BRANCH_COLORS[branchName];
-
-            // ตรวจสอบแบบ contains (เผื่อชื่อยาว/มีคำต่อท้าย)
             for (const key in BRANCH_COLORS) {
                 if (branchName.includes(key) || key.includes(branchName)) {
                     return BRANCH_COLORS[key];
                 }
             }
-
-            // ถ้าไม่พบ ใช้สีสุ่มแบบ deterministic
             const fallbackColors = ['#0891b2', '#7c3aed', '#db2777', '#65a30d', '#ea580c'];
             let hash = 0;
             for (let i = 0; i < branchName.length; i++) {
@@ -1487,7 +1588,6 @@
             return fallbackColors[Math.abs(hash) % fallbackColors.length];
         }
 
-        // ฟังก์ชันช่วยปรับความสว่างของสี
         function shadeColor(color, percent) {
             let R = parseInt(color.substring(1, 3), 16);
             let G = parseInt(color.substring(3, 5), 16);
@@ -1515,11 +1615,7 @@
         function renderBranchChart(branchMap) {
             const labels = Object.keys(branchMap);
             const data = Object.values(branchMap);
-
-            // สร้างสีตามชื่อสาขา
             const backgroundColors = labels.map(branch => getBranchColor(branch));
-
-            // สร้าง border สีเข้มขึ้นเล็กน้อย
             const borderColors = backgroundColors.map(color => shadeColor(color, -15));
 
             const ctx = document.getElementById('chart-branch').getContext('2d');
@@ -1592,7 +1688,6 @@
                 if (!sum[b]) sum[b] = {}; if (!sum[b][l]) sum[b][l] = {}; if (!sum[b][l][rm]) sum[b][l][rm] = 0; sum[b][l][rm]++;
             });
 
-            // NEW: สรุปตามสถานะ
             const presentCount = records.filter(r => (r.status || 'เข้าร่วมกิจกรรม') === 'เข้าร่วมกิจกรรม').length;
             const absentCount = records.filter(r => r.status === 'ไม่เข้าร่วม').length;
             const leaveSickCount = records.filter(r => r.status === 'ลาป่วย').length;
@@ -1620,7 +1715,6 @@
         <p class="text-center text-lg print-th-saraban mt-1">ระดับชั้น: ${toThaiDigits(level)} &nbsp;&nbsp;|&nbsp;&nbsp; สาขาวิชา: ${branch} &nbsp;&nbsp;|&nbsp;&nbsp; รอบการเรียน: ${shift}</p>
         </div>
 
-        <!-- NEW: ตารางสรุปตามสถานะ -->
         <table class="w-full text-left border-collapse border border-stone-800 mb-4 mt-4 print-th-saraban text-sm">
         <thead><tr>
             <th class="border border-stone-800 p-2 text-center bg-stone-100">สถานะ</th>
@@ -1700,7 +1794,6 @@
                 card.className = 'id-card-cr80 bg-white text-stone-800 rounded-2xl shadow-md border-2 border-maroon-800 relative flex flex-col justify-between p-3 print-th-saraban';
                 card.style.fontFamily = "'TH Sarabun PSK', 'Sarabun', sans-serif";
                 card.innerHTML = `
-          <!-- Header -->
           <div class="flex items-center justify-between border-b border-rose-200 pb-1">
             <div class="flex items-center gap-1.5 flex-1 min-w-0">
               <img src="https://aftpsc.site/font_end/image/aft_logo.png" class="w-7 h-7 object-contain flex-shrink-0">
@@ -1712,7 +1805,6 @@
             <span class="text-[12px] font-bold px-2 py-0.5 rounded bg-maroon-800 text-white flex-shrink-0">${s.shift || 'รอบเช้า'}</span>
           </div>
 
-          <!-- Body: ลบรูป และ ลบห้อง ออก -->
           <div class="flex items-center justify-between gap-2 my-auto px-1">
             <div class="space-y-1 flex-1">
               <p class="font-bold text-[18px] text-maroon-900 leading-none">${s.prefix} ${s.first_name} ${s.last_name}</p>
@@ -1724,7 +1816,6 @@
             </div>
           </div>
 
-          <!-- Footer -->
           <div class="bg-stone-50 rounded-lg p-1 border border-stone-200 flex flex-col items-center justify-center">
             <svg id="card-bc-${idx}" class="w-full h-7"></svg>
           </div>
@@ -1793,7 +1884,6 @@
             if (level !== 'ทั้งหมด') list = list.filter(item => item.students && item.students.class_level === level);
             if (shift !== 'ทั้งหมด') list = list.filter(item => item.students && item.students.shift === shift);
 
-            // NEW: คำนวณสรุปสถานะ
             const presentCount = list.filter(a => (a.status || 'เข้าร่วมกิจกรรม') === 'เข้าร่วมกิจกรรม').length;
             const absentCount = list.filter(a => a.status === 'ไม่เข้าร่วม').length;
             const leaveSickCount = list.filter(a => a.status === 'ลาป่วย').length;
@@ -1804,7 +1894,6 @@
             const totalCount = list.length;
             const percent = totalCount > 0 ? ((presentCount / totalCount) * 100).toFixed(2) : '0.00';
 
-            // NEW: อัปเดตกล่องสรุป
             const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = toThaiDigits(val); };
             setEl('report-sum-present', presentCount);
             setEl('report-sum-absent', absentCount);
@@ -1876,7 +1965,6 @@
                 showToast('ไม่สามารถอัปเดตสถานะได้', 'error');
             } else {
                 showToast(`ปรับสถานะเป็น "${newStatus}" เรียบร้อยแล้ว`);
-                // NEW: อัปเดตสรุปใหม่
                 await loadReportData();
             }
         }
@@ -1891,7 +1979,6 @@
             }
             pa.classList.add('print-th-saraban');
 
-            // โหลดข้อมูลแบบ print mode
             loadReportData(true);
 
             setTimeout(() => {
@@ -2114,7 +2201,6 @@
         let html5QrCode = null;
 
         async function openCameraScanner() {
-            // ตรวจสอบว่ามีกิจกรรมเลือกไว้หรือยัง
             if (!currentSelectedActivityId) {
                 showToast('กรุณาเลือกกิจกรรมก่อนสแกน', 'warning');
                 return;
@@ -2124,7 +2210,6 @@
             modal.classList.remove('hidden');
             if (window.lucide) lucide.createIcons();
 
-            // ตรวจสอบว่ามีไลบรารี html5-qrcode หรือไม่
             if (typeof Html5Qrcode === 'undefined') {
                 showToast('ไม่พบไลบรารีสแกนกล้อง กรุณารีเฟรชหน้าใหม่', 'error');
                 modal.classList.add('hidden');
@@ -2152,7 +2237,7 @@
                 };
 
                 await html5QrCode.start(
-                    { facingMode: "environment" }, // ใช้กล้องหลัง
+                    { facingMode: "environment" },
                     config,
                     onCameraScanSuccess,
                     onCameraScanError
@@ -2171,7 +2256,6 @@
         let lastScanTime = 0;
 
         async function onCameraScanSuccess(decodedText, decodedResult) {
-            // ป้องกันการสแกนซ้ำในเวลาสั้นๆ (debounce 2 วินาที)
             const now = Date.now();
             if (decodedText === lastScannedCode && (now - lastScanTime) < 2000) {
                 return;
@@ -2179,15 +2263,12 @@
             lastScannedCode = decodedText;
             lastScanTime = now;
 
-            // แสดงผลการสแกน
             playScanChime(true);
 
-            // หยุดกล้องชั่วคราว
             if (html5QrCode) {
                 try { await html5QrCode.pause(true); } catch (e) { }
             }
 
-            // ประมวลผลการลงทะเบียน
             const sid = String(decodedText).trim();
             const student = studentsCache.find(s => s.student_id === sid);
 
@@ -2195,7 +2276,6 @@
                 playScanChime(false);
                 speakThai('ไม่พบรหัสนักศึกษา');
                 showToast(`ไม่พบรหัสนักศึกษา ${sid}`, 'error');
-                // กลับมาสแกนต่อ
                 setTimeout(() => {
                     if (html5QrCode) {
                         try { html5QrCode.resume(); } catch (e) { }
@@ -2204,7 +2284,6 @@
                 return;
             }
 
-            // ตรวจสอบว่าลงทะเบียนแล้วหรือยัง
             const { data: existing } = await sbClient
                 .from('attendance')
                 .select('id')
@@ -2224,7 +2303,6 @@
                 return;
             }
 
-            // บันทึกการลงทะเบียน
             const { error } = await sbClient.from('attendance').insert({
                 student_id: student.student_id,
                 activity_id: currentSelectedActivityId,
@@ -2243,13 +2321,11 @@
                 return;
             }
 
-            // สำเร็จ
             speakThai('คุณ' + student.first_name + 'ได้เข้าร่วมกิจกรรมแล้ว');
             displayScannedStudent(student);
             showToast(`ลงทะเบียน ${student.first_name} ${student.last_name} สำเร็จ!`);
             await loadScanHistory();
 
-            // กลับมาสแกนต่อหลัง 2 วินาที
             setTimeout(() => {
                 if (html5QrCode && html5QrCode.getState() === Html5QrcodeScannerState.PAUSED) {
                     try { html5QrCode.resume(); } catch (e) { }
@@ -2258,7 +2334,7 @@
         }
 
         function onCameraScanError(errorMessage) {
-            // ไม่ต้องแสดง error ทุกครั้ง เพราะจะรบกวน (กล้องยังสแกนไม่เจอ)
+            // ไม่ต้องแสดง error ทุกครั้ง
         }
 
         async function closeCameraScanner() {
