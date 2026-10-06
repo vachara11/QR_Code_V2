@@ -62,8 +62,14 @@
         }
 
         /* ซ่อน scrollbar แนวนอนของ Mobile Nav */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
 
         .id-card-cr80 {
             width: 85.6mm;
@@ -91,6 +97,7 @@
             display: none;
             flex-direction: column;
         }
+
         @media (min-width: 768px) {
             #desktop-sidebar.auth-active {
                 display: flex;
@@ -99,17 +106,23 @@
 
         /* ===== Mobile Optimizations ===== */
         @media (max-width: 767.98px) {
+
             /* กัน iOS auto-zoom เวลากรอกข้อมูล */
-            input, select, textarea {
+            input,
+            select,
+            textarea {
                 font-size: 16px !important;
             }
+
             /* Safe area สำหรับ iPhone */
             .mobile-safe-bottom {
                 padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 4px);
             }
+
             .mobile-header-safe {
                 padding-top: env(safe-area-inset-top, 0px);
             }
+
             /* บัตร CR80 ย่อขนาดบนจอเล็กมาก */
             .id-card-cr80 {
                 transform: scale(0.92);
@@ -117,76 +130,179 @@
             }
         }
 
-        /* Fix White Screen Print Mode */
+        /* ============================================================
+   ✅ FIX & MODERN DESIGN: โหมดสั่งพิมพ์บัตรนักศึกษา (Print Cards Mode)
+   ============================================================ */
+
         @media print {
+            @page {
+                size: A4 portrait;
+                margin: 8mm 6mm;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
             body {
                 background: white !important;
+                margin: 0 !important;
+                padding: 0 !important;
             }
 
             body * {
                 visibility: hidden !important;
             }
 
-            /* Print Cards Mode */
+            /* แสดงเฉพาะตารางการพิมพ์บัตร จัดเรียง 2 คอลัมน์คู่ */
             body.printing-cards #cards-print-zone,
             body.printing-cards #cards-print-zone * {
                 visibility: visible !important;
             }
 
             body.printing-cards #cards-print-zone {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                display: flex !important;
-                flex-wrap: wrap;
-                gap: 6mm;
-                justify-content: flex-start;
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                display: grid !important;
+                grid-template-columns: repeat(2, 85.6mm) !important;
+                gap: 5mm 8mm !important;
+                justify-content: center !important;
+                align-content: start !important;
+                padding: 0 !important;
+                margin: 0 auto !important;
             }
 
-            /* Print Report Mode */
-            body.printing-report #report-printable-area,
-            body.printing-report #report-printable-area * {
-                visibility: visible !important;
+            .id-card-cr80-white-maroon {
+                width: 85.6mm !important;
+                height: 54mm !important;
+                min-width: 85.6mm !important;
+                min-height: 54mm !important;
+                box-shadow: none !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+        }
+
+        /* ============================================================
+   ✅ FIX White Screen Print Mode (แก้ไขหน้าพิมพ์ขาวเปล่า)
+   ============================================================ */
+        @media print {
+
+            /* ตั้งค่าหน้ากระดาษและระยะขอบ */
+            @page {
+                size: A4 portrait;
+                margin: 10mm;
             }
 
-            body.printing-report #report-printable-area {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
+            /* บังคับพิมพ์สีพื้นหลังและรูปภาพ */
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
             }
 
-            /* Print Dashboard Mode */
+            body {
+                background: white !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            /* ซ่อนองค์ประกอบปกติทั้งหมด */
+            body * {
+                visibility: hidden !important;
+            }
+
+            /* 1. Print Dashboard Mode (โหมดพิมพ์แดชบอร์ด) */
             body.printing-dashboard #dashboard-printable-area,
             body.printing-dashboard #dashboard-printable-area * {
                 visibility: visible !important;
             }
 
             body.printing-dashboard #dashboard-printable-area {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
             }
 
-            /* ซ่อนสิ่งที่ไม่อยากให้แสดงตอนพิมพ์ Dashboard */
-            body.printing-dashboard .no-print {
+            /* 2. Print Cards Mode (โหมดพิมพ์บัตรนักศึกษา) */
+            body.printing-cards #cards-print-zone,
+            body.printing-cards #cards-print-zone * {
+                visibility: visible !important;
+            }
+
+            body.printing-cards #cards-print-zone {
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                display: grid !important;
+                grid-template-columns: repeat(2, 85.6mm) !important;
+                gap: 5mm 8mm !important;
+                justify-content: center !important;
+                margin: 0 auto !important;
+            }
+
+            /* 3. Print Report Mode (โหมดพิมพ์ใบรายงาน) */
+            body.printing-report #report-printable-area,
+            body.printing-report #report-printable-area * {
+                visibility: visible !important;
+            }
+
+            body.printing-report #report-printable-area {
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+            }
+
+            /* ซ่อนปุ่มหรือ Element ที่ติดคลาส no-print */
+            .no-print {
                 display: none !important;
             }
         }
 
-        /* Print Report Mode - ซ่อน toolbar */
-        @media print {
-            body.printing-report #view-reports .no-print {
-                display: none !important;
-            }
+        /* ============================================================
+   🎨 สไตล์บัตรโทนสีขาว-แดงเลือดหมู (Premium Clean Design)
+   ============================================================ */
+        .id-card-cr80-white-maroon {
+            width: 85.6mm;
+            height: 54mm;
+            min-width: 85.6mm;
+            min-height: 54mm;
+            box-sizing: border-box;
+            background: #ffffff !important;
+            border: 1px solid #e5e7eb !important;
+            /* เปลี่ยนขอบเป็นสีเทาอ่อน ดูสะอาดตา */
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            color: #1e293b !important;
+            box-shadow: 0 4px 14px rgba(133, 14, 28, 0.12);
+            /* เงาละมุนขึ้น */
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
 
-            body.printing-report #report-printable-area {
-                box-shadow: none !important;
-                border: none !important;
-                padding: 0 !important;
-            }
+        /* ลบเงากลมๆ ด้านล่างออกเพื่อให้บัตรดูคลีนที่สุด */
+
+        /* แถบตกแต่งลวดลายมุมบัตร */
+        .id-card-cr80-white-maroon::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(133, 14, 28, 0.06) 0%, rgba(255, 255, 255, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
         }
     </style>
 </head>
@@ -203,12 +319,14 @@
     </div>
 
     <!-- ================= TOAST NOTIFICATION ================= -->
-    <div id="toast-box" class="fixed top-5 right-5 left-5 sm:left-auto z-50 flex flex-col gap-2 pointer-events-none"></div>
+    <div id="toast-box" class="fixed top-5 right-5 left-5 sm:left-auto z-50 flex flex-col gap-2 pointer-events-none">
+    </div>
 
     <!-- ================= 0. LOGIN SCREEN ================= -->
     <section id="view-login-screen"
         class="fixed inset-0 z-40 bg-gradient-to-br from-maroon-950 via-maroon-900 to-stone-900 flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-rose-200/20 relative my-auto">
+        <div
+            class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-rose-200/20 relative my-auto">
             <div class="text-center mb-6">
                 <div class="h-16 sm:h-20 flex items-center justify-center mb-3">
                     <img src="https://aftpsc.site/font_end/image/aft_logo.png" alt="โลโก้ อวท."
@@ -262,8 +380,7 @@
                 </div>
             </div>
             <button onclick="openLogoutModal()"
-                class="p-2 rounded-lg hover:bg-white/10 active:bg-white/20 transition flex-shrink-0"
-                title="ออกจากระบบ">
+                class="p-2 rounded-lg hover:bg-white/10 active:bg-white/20 transition flex-shrink-0" title="ออกจากระบบ">
                 <i data-lucide="log-out" class="w-5 h-5"></i>
             </button>
         </div>
@@ -383,8 +500,8 @@
                                 </span>
                             </label>
                             <div class="relative">
-                                <input type="text" id="scan-input"
-                                    placeholder="ยิงบาร์โค้ด หรือพิมพ์รหัส..." autofocus autocomplete="off"
+                                <input type="text" id="scan-input" placeholder="ยิงบาร์โค้ด หรือพิมพ์รหัส..." autofocus
+                                    autocomplete="off"
                                     class="w-full pl-11 pr-24 py-3.5 rounded-xl border-2 border-maroon-600 focus:border-maroon-800 focus:ring-4 focus:ring-maroon-100 outline-none font-semibold">
                                 <i data-lucide="barcode" class="w-6 h-6 text-maroon-700 absolute left-3.5 top-3.5"></i>
                                 <button onclick="triggerScanInput()"
@@ -469,7 +586,8 @@
                     <div
                         class="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-4 border-b border-stone-200 pb-4 no-print">
                         <div>
-                            <h2 class="text-lg sm:text-xl font-bold text-stone-900">แดชบอร์ดภาพรวมการเข้าร่วมกิจกรรม</h2>
+                            <h2 class="text-lg sm:text-xl font-bold text-stone-900">แดชบอร์ดภาพรวมการเข้าร่วมกิจกรรม
+                            </h2>
                             <p class="text-xs text-stone-500">องค์การนักวิชาชีพในอนาคตแห่งประเทศไทย (อวท.)
                                 วิทยาลัยเทคโนโลยีพงษ์สวัสดิ์</p>
                         </div>
@@ -520,42 +638,51 @@
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 no-print">
                         <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-stone-200">
                             <p class="text-xs text-stone-500">ผู้ลงทะเบียนในเงื่อนไข</p>
-                            <h3 id="dash-stat-total" class="text-2xl sm:text-3xl font-bold text-stone-800 mt-1">๐ คน</h3>
+                            <h3 id="dash-stat-total" class="text-2xl sm:text-3xl font-bold text-stone-800 mt-1">๐ คน
+                            </h3>
                         </div>
                         <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-stone-200">
                             <p class="text-xs text-amber-700 font-medium">รอบเช้า</p>
-                            <h3 id="dash-stat-morning" class="text-2xl sm:text-3xl font-bold text-amber-600 mt-1">๐ คน</h3>
+                            <h3 id="dash-stat-morning" class="text-2xl sm:text-3xl font-bold text-amber-600 mt-1">๐ คน
+                            </h3>
                         </div>
                         <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-stone-200">
                             <p class="text-xs text-indigo-700 font-medium">รอบบ่าย</p>
-                            <h3 id="dash-stat-afternoon" class="text-2xl sm:text-3xl font-bold text-indigo-600 mt-1">๐ คน</h3>
+                            <h3 id="dash-stat-afternoon" class="text-2xl sm:text-3xl font-bold text-indigo-600 mt-1">๐
+                                คน</h3>
                         </div>
                         <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-stone-200">
                             <p class="text-xs text-emerald-700 font-medium">สาขาที่เข้าร่วมสูงสุด</p>
-                            <h3 id="dash-stat-topbranch" class="text-sm sm:text-base font-bold text-stone-800 mt-2 truncate">-</h3>
+                            <h3 id="dash-stat-topbranch"
+                                class="text-sm sm:text-base font-bold text-stone-800 mt-2 truncate">-</h3>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 md:grid-cols-5 gap-3 sm:gap-4 no-print">
                         <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-200">
                             <p class="text-xs text-emerald-700 font-medium">เข้าร่วมกิจกรรม</p>
-                            <h3 id="dash-stat-present" class="text-2xl sm:text-3xl font-bold text-emerald-600 mt-1">๐ คน</h3>
+                            <h3 id="dash-stat-present" class="text-2xl sm:text-3xl font-bold text-emerald-600 mt-1">๐ คน
+                            </h3>
                         </div>
                         <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-rose-200">
                             <p class="text-xs text-rose-700 font-medium">ไม่เข้าร่วม</p>
-                            <h3 id="dash-stat-absent" class="text-2xl sm:text-3xl font-bold text-rose-600 mt-1">๐ คน</h3>
+                            <h3 id="dash-stat-absent" class="text-2xl sm:text-3xl font-bold text-rose-600 mt-1">๐ คน
+                            </h3>
                         </div>
                         <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-amber-200">
                             <p class="text-xs text-amber-700 font-medium">ลา (ป่วย/กิจ)</p>
-                            <h3 id="dash-stat-leave" class="text-2xl sm:text-3xl font-bold text-amber-600 mt-1">๐ คน</h3>
+                            <h3 id="dash-stat-leave" class="text-2xl sm:text-3xl font-bold text-amber-600 mt-1">๐ คน
+                            </h3>
                         </div>
                         <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-purple-200">
                             <p class="text-xs text-purple-700 font-medium">กิจกรรมวิทยาลัย</p>
-                            <h3 id="dash-stat-activity" class="text-2xl sm:text-3xl font-bold text-purple-600 mt-1">๐ คน</h3>
+                            <h3 id="dash-stat-activity" class="text-2xl sm:text-3xl font-bold text-purple-600 mt-1">๐ คน
+                            </h3>
                         </div>
                         <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-orange-200">
                             <p class="text-xs text-orange-700 font-medium">มาสาย</p>
-                            <h3 id="dash-stat-late" class="text-2xl sm:text-3xl font-bold text-orange-600 mt-1">๐ คน</h3>
+                            <h3 id="dash-stat-late" class="text-2xl sm:text-3xl font-bold text-orange-600 mt-1">๐ คน
+                            </h3>
                         </div>
                     </div>
 
@@ -584,7 +711,8 @@
                 <div
                     class="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-4 border-b border-stone-200 pb-4 no-print">
                     <div>
-                        <h2 class="text-lg sm:text-xl font-bold text-stone-900">สร้างบัตรลงทะเบียนเข้าร่วมกิจกรรม (ขนาด CR80)</h2>
+                        <h2 class="text-lg sm:text-xl font-bold text-stone-900">สร้างบัตรลงทะเบียนเข้าร่วมกิจกรรม (ขนาด
+                            CR80)</h2>
                         <p class="text-xs text-stone-500">บัตรลงทะเบียนเข้าร่วมกิจกรรม อวท.วิทยาลัยเทคโนโลยีพงษ์สวัสดิ์
                         </p>
                     </div>
@@ -596,7 +724,7 @@
                 </div>
 
                 <div
-                    class="bg-white p-3 sm:p-4 rounded-2xl shadow-sm border border-stone-200 grid grid-cols-2 md:grid-cols-5 gap-2 sm:gap-3 no-print">
+                    class="bg-white p-3 sm:p-4 rounded-2xl shadow-sm border border-stone-200 grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 no-print">
                     <div>
                         <label class="block text-[11px] font-semibold text-stone-600 mb-1">ระดับชั้น:</label>
                         <select id="card-filter-level" onchange="renderCardsByFilter()"
@@ -621,9 +749,6 @@
                         <select id="card-filter-room" onchange="renderCardsByFilter()"
                             class="w-full px-2 py-2 rounded-xl border text-xs">
                             <option value="">ทั้งหมด</option>
-                            <option value="1">ห้อง 1</option>
-                            <option value="2">ห้อง 2</option>
-                            <option value="3">ห้อง 3</option>
                         </select>
                     </div>
                     <div>
@@ -633,13 +758,6 @@
                             <option value="">ทั้งหมด</option>
                             <option value="รอบเช้า">รอบเช้า</option>
                             <option value="รอบบ่าย">รอบบ่าย</option>
-                        </select>
-                    </div>
-                    <div class="col-span-2 md:col-span-1">
-                        <label class="block text-[11px] font-semibold text-stone-600 mb-1">เลือกเฉพาะคน:</label>
-                        <select id="card-filter-single" onchange="renderCardsByFilter(true)"
-                            class="w-full px-2 py-2 rounded-xl border text-xs">
-                            <option value="">-- ทั้งหมด --</option>
                         </select>
                     </div>
                 </div>
@@ -654,7 +772,8 @@
                 <div
                     class="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-4 border-b border-stone-200 pb-4 no-print">
                     <div>
-                        <h2 class="text-lg sm:text-xl font-bold text-stone-900">ใบเซ็นชื่อและรายงานการเข้าร่วมกิจกรรม</h2>
+                        <h2 class="text-lg sm:text-xl font-bold text-stone-900">ใบเซ็นชื่อและรายงานการเข้าร่วมกิจกรรม
+                        </h2>
                         <p class="text-xs text-stone-500">ปรับสถานะการเข้าร่วม (เข้าร่วม/ไม่เข้าร่วม/ลา/กิจกรรม/สาย)
                             และสั่งพิมพ์ตามเงื่อนไข</p>
                     </div>
@@ -707,7 +826,8 @@
                     <div class="flex flex-col items-center justify-center border-b border-stone-200 pb-4 mb-4">
                         <img src="https://aftpsc.site/font_end/image/aft_logo.png" alt="Logo อวท."
                             class="h-16 w-auto mb-3 hidden print:block">
-                        <h3 class="text-base sm:text-lg font-bold text-stone-900 print:text-xl print-th-saraban text-center">
+                        <h3
+                            class="text-base sm:text-lg font-bold text-stone-900 print:text-xl print-th-saraban text-center">
                             ใบลงชื่อและบันทึกสถานะการเข้าร่วมกิจกรรม</h3>
                         <p class="text-xs text-stone-500 print:text-lg print-th-saraban text-center">
                             องค์การนักวิชาชีพในอนาคตแห่งประเทศไทย (อวท.) วิทยาลัยเทคโนโลยีพงษ์สวัสดิ์</p>
@@ -722,60 +842,16 @@
                             -</p>
                     </div>
 
-                    <div id="report-summary-box"
-                        class="mt-6 p-4 bg-stone-50 rounded-xl border border-stone-200 print:border-stone-800 print:rounded-none print:bg-white print-th-saraban">
-                        <h4 class="font-bold text-sm text-stone-800 mb-3 print:text-lg print-th-saraban">
-                            สรุปจำนวนผู้เข้าร่วมกิจกรรม</h4>
-                        <div
-                            class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 text-xs print:text-base print-th-saraban">
-                            <div
-                                class="bg-white p-3 rounded-lg border border-emerald-200 print:border-stone-800 print:rounded-none">
-                                <p class="text-emerald-700 print:text-black font-medium">เข้าร่วมกิจกรรม</p>
-                                <p id="report-sum-present"
-                                    class="text-2xl font-bold text-emerald-600 print:text-black mt-1">๐</p>
-                            </div>
-                            <div
-                                class="bg-white p-3 rounded-lg border border-rose-200 print:border-stone-800 print:rounded-none">
-                                <p class="text-rose-700 print:text-black font-medium">ไม่เข้าร่วม</p>
-                                <p id="report-sum-absent"
-                                    class="text-2xl font-bold text-rose-600 print:text-black mt-1">๐</p>
-                            </div>
-                            <div
-                                class="bg-white p-3 rounded-lg border border-amber-200 print:border-stone-800 print:rounded-none">
-                                <p class="text-amber-700 print:text-black font-medium">ลาป่วย</p>
-                                <p id="report-sum-leave-sick"
-                                    class="text-2xl font-bold text-amber-600 print:text-black mt-1">๐</p>
-                            </div>
-                            <div
-                                class="bg-white p-3 rounded-lg border border-amber-200 print:border-stone-800 print:rounded-none">
-                                <p class="text-amber-700 print:text-black font-medium">ลากิจ</p>
-                                <p id="report-sum-leave-personal"
-                                    class="text-2xl font-bold text-amber-600 print:text-black mt-1">๐</p>
-                            </div>
-                            <div
-                                class="bg-white p-3 rounded-lg border border-purple-200 print:border-stone-800 print:rounded-none">
-                                <p class="text-purple-700 print:text-black font-medium">กิจกรรมวิทยาลัย</p>
-                                <p id="report-sum-activity"
-                                    class="text-2xl font-bold text-purple-600 print:text-black mt-1">๐</p>
-                            </div>
-                            <div
-                                class="bg-white p-3 rounded-lg border border-orange-200 print:border-stone-800 print:rounded-none">
-                                <p class="text-orange-700 print:text-black font-medium">มาสาย</p>
-                                <p id="report-sum-late"
-                                    class="text-2xl font-bold text-orange-600 print:text-black mt-1">๐</p>
-                            </div>
-                        </div>
-                        <div
-                            class="mt-3 pt-3 border-t border-stone-200 print:border-stone-800 flex flex-wrap gap-x-6 gap-y-1 text-xs print:text-base print-th-saraban">
-                            <p><span class="font-semibold">รวมทั้งสิ้น:</span> <span id="report-sum-total"
-                                    class="font-bold text-maroon-900">๐</span> คน</p>
-                            <p><span class="font-semibold">รวมลา (ป่วย+กิจ):</span> <span id="report-sum-leave-total"
-                                    class="font-bold text-maroon-900">๐</span> คน</p>
-                            <p><span class="font-semibold">คิดเป็นร้อยละ:</span> <span id="report-sum-percent"
-                                    class="font-bold text-maroon-900">๐.๐๐</span></p>
-                        </div>
+                    <!-- ส่วนสรุปรายงานฉบับใหม่ -->
+                    <div id="print-formal-report-summary"
+                        class="text-base print:text-lg print-th-saraban my-4 border-y border-stone-300 py-3 space-y-1">
+                        <p><strong>จำนวนนักศึกษาทั้งหมด</strong> <span id="summary-total-students">๐</span> คน</p>
+                        <p><strong>จำนวนผู้เข้าร่วมกิจกรรม</strong> <span id="summary-present-students">๐</span> คน</p>
+                        <p><strong>จำนวนผู้ไม่เข้าร่วมกิจกรรม</strong> <span id="summary-absent-students">๐</span> คน
+                        </p>
+                        <p><strong>จำนวนผู้เข้าร่วมกิจกรรมคิดเป็นร้อยละ </strong> <span id="summary-percent-students">
+                                ๐.๐๐</span></p>
                     </div>
-
                     <div class="overflow-x-auto mt-4 -mx-4 px-4 sm:mx-0 sm:px-0">
                         <table class="w-full text-left text-xs border border-stone-300 min-w-[640px]">
                             <thead class="bg-stone-100 text-stone-700">
@@ -1067,7 +1143,8 @@
         <div class="bg-white rounded-2xl max-w-xs w-full p-6 shadow-2xl text-center">
             <h4 class="text-base font-bold text-stone-900">จะออกจากระบบไหม?</h4>
             <div class="flex gap-2 mt-4">
-                <button onclick="closeLogoutModal()" class="flex-1 py-2.5 rounded-xl bg-stone-100 text-xs">ยกเลิก</button>
+                <button onclick="closeLogoutModal()"
+                    class="flex-1 py-2.5 rounded-xl bg-stone-100 text-xs">ยกเลิก</button>
                 <button onclick="confirmLogout()"
                     class="flex-1 py-2.5 rounded-xl bg-maroon-800 text-white text-xs">ออกจากระบบ</button>
             </div>
@@ -1329,7 +1406,10 @@
 
             if (viewName === 'students') fetchStudents();
             else if (viewName === 'activities') fetchActivities();
-            else if (viewName === 'cards') renderCardsByFilter();
+            else if (viewName === 'cards') {
+                populateDropdowns();    // ให้โหลดตัวเลือกก่อน
+                renderCardsByFilter();  // สั่งเรนเดอร์บัตร
+            }
             else if (viewName === 'landing') updateDashboardAnalytics();
             else if (viewName === 'reports') loadReportData();
             else if (viewName === 'scan') setTimeout(() => document.getElementById('scan-input').focus(), 150);
@@ -1374,27 +1454,136 @@
             }
         }
 
+        // 1. ฟังก์ชันดึงและจัดเตรียมข้อมูลใส่ตัวเลือก Dropdown
         function populateDropdowns() {
-            const branches = [...new Set(studentsCache.map(s => s.branch).filter(Boolean))];
+            const branches = [...new Set(studentsCache.map(s => s.branch).filter(Boolean))].sort();
             ['card-filter-branch', 'dash-filter-branch', 'report-filter-branch'].forEach(id => {
                 const el = document.getElementById(id);
+                if (!el) return;
                 el.innerHTML = '<option value="">ทั้งหมด</option>';
                 branches.forEach(b => {
                     const opt = document.createElement('option');
-                    opt.value = b; opt.textContent = b;
+                    opt.value = b;
+                    opt.textContent = b;
                     el.appendChild(opt);
                 });
             });
-            const c = document.getElementById('card-filter-single');
-            c.innerHTML = '<option value="">-- ทั้งหมดตามเงื่อนไข --</option>';
-            studentsCache.forEach(s => {
-                const opt = document.createElement('option');
-                opt.value = s.student_id;
-                opt.textContent = `${s.student_id} - ${s.first_name} ${s.last_name}`;
-                c.appendChild(opt);
-            });
+
+            // ดึงรายการห้องที่มีอยู่จริงจากข้อมูลนักศึกษา
+            const rooms = [...new Set(studentsCache.map(s => String(s.room || '1').trim()).filter(Boolean))].sort();
+            const roomSelect = document.getElementById('card-filter-room');
+            if (roomSelect) {
+                roomSelect.innerHTML = '<option value="">ทั้งหมด</option>';
+                rooms.forEach(r => {
+                    const opt = document.createElement('option');
+                    opt.value = r;
+                    opt.textContent = `ห้อง ${r}`;
+                    roomSelect.appendChild(opt);
+                });
+            }
         }
 
+        function renderCardsByFilter() {
+            const level = document.getElementById('card-filter-level')?.value || '';
+            const branch = document.getElementById('card-filter-branch')?.value || '';
+            const room = document.getElementById('card-filter-room')?.value || '';
+            const shift = document.getElementById('card-filter-shift')?.value || '';
+
+            const cleanStr = (val) => String(val || '').replace(/\s+/g, '').toLowerCase();
+
+            let list = studentsCache.filter(s => {
+                const matchLevel = !level || cleanStr(s.class_level) === cleanStr(level);
+                const matchBranch = !branch || cleanStr(s.branch) === cleanStr(branch);
+                const matchRoom = !room || cleanStr(s.room) === cleanStr(room);
+                const matchShift = !shift || cleanStr(s.shift) === cleanStr(shift);
+                return matchLevel && matchBranch && matchRoom && matchShift;
+            });
+
+            const container = document.getElementById('cards-print-zone');
+            if (!container) return;
+            container.innerHTML = '';
+
+            if (list.length === 0) {
+                container.innerHTML = `
+            <div class="col-span-full py-12 text-center text-stone-400 no-print w-full">
+                <i data-lucide="search-x" class="w-12 h-12 mx-auto mb-2 opacity-50"></i>
+                <p class="text-sm font-medium">ไม่พบข้อมูลนักศึกษาตามเงื่อนไขที่เลือก</p>
+            </div>`;
+                if (window.lucide) lucide.createIcons();
+                return;
+            }
+
+            list.forEach((s, idx) => {
+                const card = document.createElement('div');
+                card.className = 'id-card-cr80-white-maroon relative flex flex-col justify-between print-th-saraban select-none';
+                card.style.fontFamily = "'TH Sarabun PSK', 'Sarabun', sans-serif";
+                card.innerHTML = `
+          <!-- Header Banner (ปรับระยะห่างบรรทัด + Logo ไม่มีขอบขาว) -->
+          <div class="bg-gradient-to-r from-maroon-900 via-maroon-800 to-maroon-950 text-white px-2.5 py-1.5 flex items-center justify-between border-b-2 border-amber-400 z-10">
+            <div class="flex items-center gap-2 min-w-0">
+              <!-- Logo แสดงเฉพาะตัวโลโก้เด่นๆ ไม่มีขอบขาว/กรอบขาว -->
+              <img src="https://aftpsc.site/font_end/image/aft_logo.png" class="w-8 h-8 object-contain flex-shrink-0 drop-shadow">
+              
+              <div class="leading-snug min-w-0 space-y-0.5">
+                <h4 class="font-bold text-[13px] text-amber-300 truncate" style="margin:0; line-height:1.2;">
+                  บัตรลงทะเบียนเข้าร่วมกิจกรรม
+                </h4>
+                <p class="text-[10px] text-rose-100 font-medium truncate" style="margin:0; line-height:1.2;">
+                  อวท.วิทยาลัยเทคโนโลยีพงษ์สวัสดิ์
+                </p>
+              </div>
+            </div>
+
+            <span class="text-[9.5px] font-bold px-2 py-0.5 rounded-full bg-amber-400 text-maroon-950 flex-shrink-0 shadow-sm border border-amber-200">
+                ${s.shift || 'รอบเช้า'}
+            </span>
+          </div>
+
+          <!-- Body Content (แก้ไขเรื่องชื่อยาวไม่ให้ถูกตัดอักษร) -->
+          <div class="my-auto py-1 px-2.5 flex items-center justify-between gap-1.5 z-10">
+            <div class="flex-1 min-w-0 pr-1">
+              <!-- ปรับขนาดฟอนต์ชื่อลงเล็กน้อย + ให้ย่อตามความยาวชื่อ ป้องกันชื่อขาดหาย -->
+              <p class="font-bold text-[15px] text-maroon-950 leading-tight mb-1 break-words line-clamp-2" title="${s.prefix}${s.first_name} ${s.last_name}">
+                ${s.prefix}${s.first_name} ${s.last_name}
+              </p>
+              
+              <div class="text-[12px] text-stone-600 leading-tight space-y-0.5">
+                <p class="truncate"><span class="font-semibold text-maroon-800">รหัสนักศึกษา</span> <span class="tracking-wider text-stone-900 font-bold">${s.student_id}</span></p>
+                <p class="truncate"><span class="font-semibold text-stone-500">สาขาวิชา</span> <span class="text-stone-800 font-medium">${s.branch}</span></p>
+              </div>
+            </div>
+
+            <!-- QR Code Container -->
+            <div class="flex flex-col items-center justify-center flex-shrink-0 p-1 rounded-xl bg-white border border-stone-200 shadow-sm">
+              <div id="card-qr-${idx}"></div>
+            </div>
+          </div>
+
+          <!-- Footer Barcode -->
+          <div class="bg-stone-50 border-t border-stone-200 px-2 py-1 flex items-center justify-center z-10">
+            <svg id="card-bc-${idx}" class="w-full h-5"></svg>
+          </div>
+        `;
+                container.appendChild(card);
+
+                // Gen Barcode & QR Code
+                setTimeout(() => {
+                    try {
+                        if (window.JsBarcode) {
+                            JsBarcode(`#card-bc-${idx}`, s.student_id, {
+                                format: "CODE128", width: 1.5, height: 18, displayValue: false, margin: 0, background: "transparent"
+                            });
+                        }
+                        if (window.QRCode) {
+                            new QRCode(document.getElementById(`card-qr-${idx}`), {
+                                text: s.student_id, width: 42, height: 42, correctLevel: QRCode.CorrectLevel.M
+                            });
+                        }
+                    } catch (e) { }
+                }, 20);
+            });
+            if (window.lucide) lucide.createIcons();
+        }
         function populateActs() {
             const scanSelect = document.getElementById('scan-activity-select');
             const repSelect = document.getElementById('report-activity-select');
@@ -1507,7 +1696,7 @@
         }
 
 
-        // ================= DASHBOARD =================
+        // ค้นหาฟังก์ชัน updateDashboardAnalytics() และปรับแก้การดึงข้อมูลสรุป
         async function updateDashboardAnalytics() {
             await fetchAttendance();
             const actId = document.getElementById('dash-filter-act').value;
@@ -1527,25 +1716,35 @@
             if (level) records = records.filter(r => r.student.class_level === level);
             if (branch) records = records.filter(r => r.student.branch === branch);
 
-            const totalCount = records.length;
-            const morningCount = records.filter(r => r.student.shift === 'รอบเช้า').length;
-            const afternoonCount = records.filter(r => r.student.shift === 'รอบบ่าย').length;
+            // ดึงข้อมูล "นักศึกษาทั้งหมด" จากหน้าจัดการข้อมูลนักศึกษาตามเงื่อนไขการกรอง
+            let studentFiltered = studentsCache;
+            if (shift) studentFiltered = studentFiltered.filter(s => s.shift === shift);
+            if (level) studentFiltered = studentFiltered.filter(s => s.class_level === level);
+            if (branch) studentFiltered = studentFiltered.filter(s => s.branch === branch);
 
+            const totalCount = studentFiltered.length;
+            const morningCount = studentFiltered.filter(s => s.shift === 'รอบเช้า').length;
+            const afternoonCount = studentFiltered.filter(s => s.shift === 'รอบบ่าย').length;
+
+            // อัปเดต UI แดชบอร์ด
+            document.getElementById('dash-stat-total').innerText = `${toThaiDigits(totalCount)} คน`;
+            document.getElementById('dash-stat-morning').innerText = `${toThaiDigits(morningCount)} คน`;
+            document.getElementById('dash-stat-afternoon').innerText = `${toThaiDigits(afternoonCount)} คน`;
+
+            // (ส่วนการคำนวณสถานะการเข้าร่วม presentCount, absentCount ฯลฯ คงไว้เหมือนเดิม...)
             const presentCount = records.filter(r => (r.status || 'เข้าร่วมกิจกรรม') === 'เข้าร่วมกิจกรรม').length;
             const absentCount = records.filter(r => r.status === 'ไม่เข้าร่วม').length;
             const leaveCount = records.filter(r => r.status === 'ลาป่วย' || r.status === 'ลากิจ').length;
             const activityCount = records.filter(r => r.status === 'กิจกรรมวิทยาลัย').length;
             const lateCount = records.filter(r => r.status === 'มาสาย').length;
 
-            document.getElementById('dash-stat-total').innerText = `${toThaiDigits(totalCount)} คน`;
-            document.getElementById('dash-stat-morning').innerText = `${toThaiDigits(morningCount)} คน`;
-            document.getElementById('dash-stat-afternoon').innerText = `${toThaiDigits(afternoonCount)} คน`;
             document.getElementById('dash-stat-present').innerText = `${toThaiDigits(presentCount)} คน`;
             document.getElementById('dash-stat-absent').innerText = `${toThaiDigits(absentCount)} คน`;
             document.getElementById('dash-stat-leave').innerText = `${toThaiDigits(leaveCount)} คน`;
             document.getElementById('dash-stat-activity').innerText = `${toThaiDigits(activityCount)} คน`;
             document.getElementById('dash-stat-late').innerText = `${toThaiDigits(lateCount)} คน`;
 
+            // (ส่วนการสร้างกราฟคงไว้เหมือนเดิม...)
             const branchMap = {};
             records.forEach(r => {
                 const b = r.student.branch || 'ไม่ระบุ';
@@ -1562,7 +1761,7 @@
             renderBranchChart(branchMap);
             renderShiftChart(morningCount, afternoonCount);
 
-            generateDashboardPrintTable(records);
+            generateDashboardPrintTable(records, totalCount, morningCount, afternoonCount);
         }
 
         const BRANCH_COLORS = {
@@ -1687,69 +1886,192 @@
             });
         }
 
-        function generateDashboardPrintTable(records) {
-            let sum = {};
-            records.forEach(r => {
-                const b = r.student.branch || '-', l = r.student.class_level || '-', rm = r.student.room || '1';
-                if (!sum[b]) sum[b] = {}; if (!sum[b][l]) sum[b][l] = {}; if (!sum[b][l][rm]) sum[b][l][rm] = 0; sum[b][l][rm]++;
+        // ค้นหาฟังก์ชัน generateDashboardPrintTable() และเปลี่ยนส่วนหัวให้เป็นพรรณนาแบบทางการ
+        // ✅ ฟังก์ชันสร้างตารางทางการ 2 ตารางสำหรับพิมพ์แดชบอร์ดภาพรวม
+        function generateDashboardPrintTable(records, totalCount, morningCount, afternoonCount) {
+            const actId = document.getElementById('dash-filter-act')?.value;
+            const act = activitiesCache.find(a => a.id === actId);
+            let actNameStr = act ? act.activity_name : 'รวมทุกกิจกรรม';
+            let actDateStr = act ? formatThaiDate(act.activity_date) : '-';
+
+            // 1. ประมวลผลข้อมูลแยกตามสาขาวิชา (ตารางที่ 1)
+            const branchStats = {};
+            // 2. ประมวลผลข้อมูลแยกตามห้อง (ตารางที่ 2)
+            const roomStats = {};
+
+            // จัดกลุ่มนักศึกษาทั้งหมดตามเงื่อนไขเพื่อหาจำนวนรวมของแต่ละสาขา/ห้อง
+            const shiftFilter = document.getElementById('dash-filter-shift')?.value || '';
+            const levelFilter = document.getElementById('dash-filter-level')?.value || '';
+            const branchFilter = document.getElementById('dash-filter-branch')?.value || '';
+
+            const cleanStr = (val) => String(val || '').replace(/\s+/g, '').toLowerCase();
+
+            const targetStudents = studentsCache.filter(s => {
+                const matchShift = !shiftFilter || cleanStr(s.shift) === cleanStr(shiftFilter);
+                const matchLevel = !levelFilter || cleanStr(s.class_level) === cleanStr(levelFilter);
+                const matchBranch = !branchFilter || cleanStr(s.branch) === cleanStr(branchFilter);
+                return matchShift && matchLevel && matchBranch;
             });
 
-            const presentCount = records.filter(r => (r.status || 'เข้าร่วมกิจกรรม') === 'เข้าร่วมกิจกรรม').length;
-            const absentCount = records.filter(r => r.status === 'ไม่เข้าร่วม').length;
-            const leaveSickCount = records.filter(r => r.status === 'ลาป่วย').length;
-            const leavePersonalCount = records.filter(r => r.status === 'ลากิจ').length;
-            const activityCount = records.filter(r => r.status === 'กิจกรรมวิทยาลัย').length;
-            const lateCount = records.filter(r => r.status === 'มาสาย').length;
-            const totalLeave = leaveSickCount + leavePersonalCount;
+            // เริ่มต้นตัวนับสำหรับนักศึกษาทุกคน
+            targetStudents.forEach(s => {
+                const b = s.branch || 'ไม่ระบุสาขา';
+                const rKey = `${s.branch || '-'} | ${s.class_level || '-'}/ห้อง ${s.room || '1'}`;
 
-            const actId = document.getElementById('dash-filter-act').value;
-            const act = activitiesCache.find(a => a.id === actId);
-            const branch = document.getElementById('dash-filter-branch').value || 'ทั้งหมด';
-            const level = document.getElementById('dash-filter-level').value || 'ทั้งหมด';
-            const shift = document.getElementById('dash-filter-shift').value || 'ทั้งหมด';
+                if (!branchStats[b]) branchStats[b] = { total: 0, present: 0 };
+                branchStats[b].total++;
 
-            let actNameStr = act ? act.activity_name : 'รวมทุกกิจกรรม';
-            let actDateStr = act ? formatThaiDate(act.activity_date) : '';
+                if (!roomStats[rKey]) roomStats[rKey] = { branch: b, level: s.class_level || '-', room: s.room || '1', total: 0, present: 0 };
+                roomStats[rKey].total++;
+            });
 
+            // นำรายการสแกนเข้าร่วมมานับจำนวนผู้เข้าร่วม (Present)
+            records.forEach(r => {
+                const st = r.student || {};
+                const isPresent = (r.status || 'เข้าร่วมกิจกรรม') === 'เข้าร่วมกิจกรรม';
+                if (isPresent) {
+                    const b = st.branch || 'ไม่ระบุสาขา';
+                    const rKey = `${st.branch || '-'} | ${st.class_level || '-'}/ห้อง ${st.room || '1'}`;
+
+                    if (branchStats[b]) branchStats[b].present++;
+                    if (roomStats[rKey]) roomStats[rKey].present++;
+                }
+            });
+
+            // ------------------ สร้างโครงสร้าง HTML สำหรับพิมพ์ ------------------
             let html = `
-        <div class="flex flex-col items-center justify-center mb-4">
+    <div class="flex flex-col items-center justify-center mb-6 text-center">
         <img src="https://aftpsc.site/font_end/image/aft_logo.png" class="h-20 w-auto mb-2">
-        <h3 class="font-bold text-center text-xl print-th-saraban">สรุปภาพรวมการเข้าร่วมกิจกรรม</h3>
-        <p class="text-center text-lg print-th-saraban">องค์การนักวิชาชีพในอนาคตแห่งประเทศไทย (อวท.) วิทยาลัยเทคโนโลยีพงษ์สวัสดิ์</p>
-        <p class="text-center text-lg print-th-saraban font-semibold mt-2">${actNameStr}</p>
-        <p class="text-center text-lg print-th-saraban font-semibold mt-0.5">${actDateStr}</p>
-        <p class="text-center text-lg print-th-saraban mt-1">ระดับชั้น: ${toThaiDigits(level)} &nbsp;&nbsp;|&nbsp;&nbsp; สาขาวิชา: ${branch} &nbsp;&nbsp;|&nbsp;&nbsp; รอบการเรียน: ${shift}</p>
-        </div>
+        <h3 class="font-bold text-xl print-th-saraban">เอกสารสรุปภาพรวมการเข้าร่วมกิจกรรม</h3>
+        <p class="text-lg print-th-saraban">องค์การนักวิชาชีพในอนาคตแห่งประเทศไทย (อวท.) วิทยาลัยเทคโนโลยีพงษ์สวัสดิ์</p>
+        <p class="text-xl print-th-saraban font-bold text-maroon-900 mt-1">กิจกรรม ${actNameStr}</p>
+        <p class="text-lg print-th-saraban font-semibold">${actDateStr}</p>
+    </div>
 
-        <table class="w-full text-left border-collapse border border-stone-800 mb-4 mt-4 print-th-saraban text-sm">
-        <thead><tr>
-            <th class="border border-stone-800 p-2 text-center bg-stone-100">สถานะ</th>
-            <th class="border border-stone-800 p-2 text-center bg-stone-100">จำนวน (คน)</th>
-        </tr></thead>
-        <tbody>
-            <tr><td class="border border-stone-800 p-2">เข้าร่วมกิจกรรม</td><td class="border border-stone-800 p-2 text-center">${toThaiDigits(presentCount)}</td></tr>
-            <tr><td class="border border-stone-800 p-2">ไม่เข้าร่วม</td><td class="border border-stone-800 p-2 text-center">${toThaiDigits(absentCount)}</td></tr>
-            <tr><td class="border border-stone-800 p-2">ลาป่วย</td><td class="border border-stone-800 p-2 text-center">${toThaiDigits(leaveSickCount)}</td></tr>
-            <tr><td class="border border-stone-800 p-2">ลากิจ</td><td class="border border-stone-800 p-2 text-center">${toThaiDigits(leavePersonalCount)}</td></tr>
-            <tr><td class="border border-stone-800 p-2">รวมลา (ป่วย+กิจ)</td><td class="border border-stone-800 p-2 text-center">${toThaiDigits(totalLeave)}</td></tr>
-            <tr><td class="border border-stone-800 p-2">กิจกรรมวิทยาลัย</td><td class="border border-stone-800 p-2 text-center">${toThaiDigits(activityCount)}</td></tr>
-            <tr><td class="border border-stone-800 p-2">มาสาย</td><td class="border border-stone-800 p-2 text-center">${toThaiDigits(lateCount)}</td></tr>
-            <tr class="bg-stone-100"><td class="border border-stone-800 p-2 font-bold">รวมทั้งสิ้น</td><td class="border border-stone-800 p-2 text-center font-bold">${toThaiDigits(records.length)}</td></tr>
-        </tbody>
-        </table>
+    <!-- ------------------ ตารางที่ 1: สรุปภาพรวมเป็นสาขาวิชา ------------------ -->
+    <div class="mb-6">
+        <h4 class="font-bold text-lg print-th-saraban mb-2">ตารางที่ ๑: สรุปภาพรวมการเข้าร่วมกิจกรรมแยกตามสาขาวิชา</h4>
+        <table class="w-full text-left border-collapse border border-stone-800 print-th-saraban text-base">
+            <thead>
+                <tr class="bg-stone-100">
+                    <th class="border border-stone-800 p-2 text-center font-bold">ลำดับ</th>
+                    <th class="border border-stone-800 p-2 text-center font-bold">สาขาวิชา</th>
+                    <th class="border border-stone-800 p-2 text-center font-bold">จำนวนทั้งหมด (คน)</th>
+                    <th class="border border-stone-800 p-2 text-center font-bold">เข้าร่วมกิจกรรม (คน)</th>
+                    <th class="border border-stone-800 p-2 text-center font-bold">ไม่เข้าร่วม (คน)</th>
+                    <th class="border border-stone-800 p-2 text-center font-bold">คิดเป็นร้อยละ</th>
+                </tr>
+            </thead>
+            <tbody>`;
 
-        <table class="w-full text-left border-collapse border border-stone-800 mb-4 mt-4 print-th-saraban text-sm">
-        <thead><tr>
-            <th class="border border-stone-800 p-2 text-center bg-stone-100">สาขาวิชา</th>
-            <th class="border border-stone-800 p-2 text-center bg-stone-100">ระดับชั้น</th>
-            <th class="border border-stone-800 p-2 text-center bg-stone-100">ห้อง</th>
-            <th class="border border-stone-800 p-2 text-center bg-stone-100">จำนวน (คน)</th>
-        </tr></thead><tbody>`;
+            let bIndex = 1;
+            let sumBTotal = 0, sumBPresent = 0, sumBAbsent = 0;
 
-            for (let b in sum) for (let l in sum[b]) for (let rm in sum[b][l]) {
-                html += `<tr><td class="border border-stone-800 p-2">${b}</td><td class="border border-stone-800 p-2 text-center">${l}</td><td class="border border-stone-800 p-2 text-center">${toThaiDigits(rm)}</td><td class="border border-stone-800 p-2 text-center">${toThaiDigits(sum[b][l][rm])}</td></tr>`;
+            for (let b in branchStats) {
+                // กรองเฉพาะสาขาที่มีผู้เข้าร่วมมากกว่า 0
+                if (branchStats[b].present > 0) {
+                    const tot = branchStats[b].total;
+                    const pres = branchStats[b].present;
+                    const abs = tot > pres ? tot - pres : 0;
+                    const pct = tot > 0 ? ((pres / tot) * 100).toFixed(2) : '0.00';
+
+                    sumBTotal += tot;
+                    sumBPresent += pres;
+                    sumBAbsent += abs;
+
+                    html += `
+                <tr>
+                    <td class="border border-stone-800 p-2 text-center">${toThaiDigits(bIndex++)}</td>
+                    <td class="border border-stone-800 p-2">${b}</td>
+                    <td class="border border-stone-800 p-2 text-center">${toThaiDigits(tot)}</td>
+                    <td class="border border-stone-800 p-2 text-center">${toThaiDigits(pres)}</td>
+                    <td class="border border-stone-800 p-2 text-center">${toThaiDigits(abs)}</td>
+                    <td class="border border-stone-800 p-2 text-center">${toThaiDigits(pct)}%</td>
+                </tr>`;
+                }
             }
-            html += `</tbody></table><p class="print-th-saraban text-right"><strong>รวมทั้งสิ้น ${toThaiDigits(records.length)} คน</strong></p>`;
+
+            const totalBPct = sumBTotal > 0 ? ((sumBPresent / sumBTotal) * 100).toFixed(2) : '0.00';
+            html += `
+                <tr class="font-bold bg-stone-50">
+                    <td colspan="2" class="border border-stone-800 p-2 text-center">รวมทั้งสิ้น</td>
+                    <td class="border border-stone-800 p-2 text-center">${toThaiDigits(sumBTotal)}</td>
+                    <td class="border border-stone-800 p-2 text-center">${toThaiDigits(sumBPresent)}</td>
+                    <td class="border border-stone-800 p-2 text-center">${toThaiDigits(sumBAbsent)}</td>
+                    <td class="border border-stone-800 p-2 text-center">${toThaiDigits(totalBPct)}%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ------------------ ตารางที่ 2: สรุปภาพรวมเป็นห้อง ------------------ -->
+    <div class="mb-6">
+        <h4 class="font-bold text-lg print-th-saraban mb-2">ตารางที่ ๒: สรุปภาพรวมการเข้าร่วมกิจกรรมแยกตามระดับชั้น/ห้อง</h4>
+        <table class="w-full text-left border-collapse border border-stone-800 print-th-saraban text-base">
+            <thead>
+                <tr class="bg-stone-100">
+                    <th class="border border-stone-800 p-2 text-center font-bold">ลำดับ</th>
+                    <th class="border border-stone-800 p-2 text-center font-bold">สาขาวิชา</th>
+                    <th class="border border-stone-800 p-2 text-center font-bold">ระดับชั้น/ห้อง</th>
+                    <th class="border border-stone-800 p-2 text-center font-bold">จำนวนทั้งหมด (คน)</th>
+                    <th class="border border-stone-800 p-2 text-center font-bold">เข้าร่วมกิจกรรม (คน)</th>
+                    <th class="border border-stone-800 p-2 text-center font-bold">ไม่เข้าร่วม (คน)</th>
+                    <th class="border border-stone-800 p-2 text-center font-bold">คิดเป็นร้อยละ</th>
+                </tr>
+            </thead>
+            <tbody>`;
+
+            let rIndex = 1;
+            let sumRTotal = 0, sumRPresent = 0, sumRAbsent = 0;
+
+            for (let rKey in roomStats) {
+                const item = roomStats[rKey];
+                // ✅ กรองเฉพาะห้องที่มีการลงทะเบียนเข้าร่วมกิจกรรม (present > 0)
+                if (item.present > 0) {
+                    const tot = item.total;
+                    const pres = item.present;
+                    const abs = tot > pres ? tot - pres : 0;
+                    const pct = tot > 0 ? ((pres / tot) * 100).toFixed(2) : '0.00';
+
+                    sumRTotal += tot;
+                    sumRPresent += pres;
+                    sumRAbsent += abs;
+
+                    html += `
+                <tr>
+                    <td class="border border-stone-800 p-2 text-center">${toThaiDigits(rIndex++)}</td>
+                    <td class="border border-stone-800 p-2">${item.branch}</td>
+                    <td class="border border-stone-800 p-2 text-center">${item.level} / ห้อง ${toThaiDigits(item.room)}</td>
+                    <td class="border border-stone-800 p-2 text-center">${toThaiDigits(tot)}</td>
+                    <td class="border border-stone-800 p-2 text-center">${toThaiDigits(pres)}</td>
+                    <td class="border border-stone-800 p-2 text-center">${toThaiDigits(abs)}</td>
+                    <td class="border border-stone-800 p-2 text-center">${toThaiDigits(pct)}%</td>
+                </tr>`;
+                }
+            }
+
+            const totalRPct = sumRTotal > 0 ? ((sumRPresent / sumRTotal) * 100).toFixed(2) : '0.00';
+            html += `
+                <tr class="font-bold bg-stone-50">
+                    <td colspan="3" class="border border-stone-800 p-2 text-center">รวมทั้งสิ้น</td>
+                    <td class="border border-stone-800 p-2 text-center">${toThaiDigits(sumRTotal)}</td>
+                    <td class="border border-stone-800 p-2 text-center">${toThaiDigits(sumRPresent)}</td>
+                    <td class="border border-stone-800 p-2 text-center">${toThaiDigits(sumRAbsent)}</td>
+                    <td class="border border-stone-800 p-2 text-center">${toThaiDigits(totalRPct)}%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ส่วนเซ็นชื่อลงนาม -->
+    <div class="mt-8 flex justify-end">
+        <div class="text-center w-64 text-base print-th-saraban space-y-4">
+            <p>ลงชื่อ....................................................</p>
+            <p>(......................................................)</p>
+            <p>ตำแหน่ง..................................................</p>
+            <p>วันที่ .......... / .......... / ..............</p>
+        </div>
+    </div>`;
 
             let pC = document.getElementById('dashboard-print-table-container');
             if (!pC) {
@@ -1760,7 +2082,6 @@
             }
             pC.innerHTML = html;
         }
-
         function printDashboardView() {
             document.body.classList.add('printing-dashboard');
             window.print();
@@ -1768,79 +2089,7 @@
         }
 
         // ================= STUDENT CARDS =================
-        function renderCardsByFilter(isSingle = false) {
-            const level = document.getElementById('card-filter-level').value;
-            const branch = document.getElementById('card-filter-branch').value;
-            const room = document.getElementById('card-filter-room').value;
-            const shift = document.getElementById('card-filter-shift').value;
-            const singleId = document.getElementById('card-filter-single').value;
 
-            let list = studentsCache;
-            if (isSingle && singleId) {
-                list = studentsCache.filter(s => s.student_id === singleId);
-            } else {
-                list = list.filter(s => {
-                    return (!level || s.class_level === level) &&
-                        (!branch || s.branch === branch) &&
-                        (!room || s.room === room) &&
-                        (!shift || s.shift === shift);
-                });
-            }
-
-            const container = document.getElementById('cards-print-zone');
-            container.innerHTML = '';
-
-            if (list.length === 0) {
-                container.innerHTML = `<div class="p-8 text-center text-stone-400 no-print">ไม่พบนักศึกษาตามเงื่อนไข</div>`;
-                return;
-            }
-
-            list.forEach((s, idx) => {
-                const card = document.createElement('div');
-                card.className = 'id-card-cr80 bg-white text-stone-800 rounded-2xl shadow-md border-2 border-maroon-800 relative flex flex-col justify-between p-3 print-th-saraban';
-                card.style.fontFamily = "'TH Sarabun PSK', 'Sarabun', sans-serif";
-                card.innerHTML = `
-          <div class="flex items-center justify-between border-b border-rose-200 pb-1">
-            <div class="flex items-center gap-1.5 flex-1 min-w-0">
-              <img src="https://aftpsc.site/font_end/image/aft_logo.png" class="w-7 h-7 object-contain flex-shrink-0">
-              <div class="leading-tight truncate">
-                <h4 class="font-bold text-[14px] text-maroon-950 truncate" style="margin:0;">บัตรลงทะเบียนเข้าร่วมกิจกรรม</h4>
-                <p class="text-[12px] text-stone-600 truncate" style="margin:0;">อวท.วิทยาลัยเทคโนโลยีพงษ์สวัสดิ์</p>
-              </div>
-            </div>
-            <span class="text-[12px] font-bold px-2 py-0.5 rounded bg-maroon-800 text-white flex-shrink-0">${s.shift || 'รอบเช้า'}</span>
-          </div>
-
-          <div class="flex items-center justify-between gap-2 my-auto px-1">
-            <div class="space-y-1 flex-1">
-              <p class="font-bold text-[18px] text-maroon-900 leading-none">${s.prefix} ${s.first_name} ${s.last_name}</p>
-              <p class="text-[14px] text-stone-700">รหัสนักศึกษา: <span class="font-bold text-maroon-950">${s.student_id}</span></p>
-              <p class="text-[14px] text-stone-700 truncate">สาขาวิชา: <span class="font-semibold text-stone-900">${s.branch}</span></p>
-            </div>
-            <div class="flex flex-col items-center justify-center flex-shrink-0">
-              <div id="card-qr-${idx}" class="p-0.5 bg-white border border-stone-200 rounded"></div>
-            </div>
-          </div>
-
-          <div class="bg-stone-50 rounded-lg p-1 border border-stone-200 flex flex-col items-center justify-center">
-            <svg id="card-bc-${idx}" class="w-full h-7"></svg>
-          </div>
-        `;
-                container.appendChild(card);
-
-                setTimeout(() => {
-                    try {
-                        JsBarcode(`#card-bc-${idx}`, s.student_id, {
-                            format: "CODE128", width: 1.6, height: 24, displayValue: false, margin: 0
-                        });
-                        new QRCode(document.getElementById(`card-qr-${idx}`), {
-                            text: s.student_id, width: 54, height: 54, correctLevel: QRCode.CorrectLevel.M
-                        });
-                    } catch (e) { }
-                }, 10);
-            });
-            if (window.lucide) lucide.createIcons();
-        }
 
         function printCardsView() {
             document.body.classList.add('printing-cards');
@@ -1850,129 +2099,89 @@
 
 
         // ================= REPORT & STATUS UPDATE =================
+        // ✅ ฟังก์ชันดึงข้อมูลรายงานและอัปเดตสรุปสั้น 4 หัวข้อ
         async function loadReportData(isPrint = false) {
-            const actId = document.getElementById('report-activity-select').value;
-            const branch = document.getElementById('report-filter-branch').value || 'ทั้งหมด';
-            const level = document.getElementById('report-filter-level').value || 'ทั้งหมด';
-            const shift = document.getElementById('report-filter-shift').value || 'ทั้งหมด';
+            const actId = document.getElementById('report-activity-select')?.value;
+            const branch = document.getElementById('report-filter-branch')?.value || '';
+            const level = document.getElementById('report-filter-level')?.value || '';
+            const shift = document.getElementById('report-filter-shift')?.value || '';
 
             if (!sbClient || !actId) return;
 
+            // 1. แสดงชื่อกิจกรรมและวันที่
             const act = activitiesCache.find(a => a.id === actId);
             if (act) {
-                if (isPrint) {
-                    document.getElementById('report-activity-title').innerHTML = act.activity_name;
-                    document.getElementById('report-activity-date').innerHTML = formatThaiDate(act.activity_date);
-                } else {
-                    document.getElementById('report-activity-title').innerHTML = `${act.activity_code}: ${act.activity_name} (วันที่ ${act.activity_date})`;
-                    document.getElementById('report-activity-date').innerHTML = '';
-                }
+                document.getElementById('report-activity-title').innerText = `กิจกรรม ${act.activity_name}`;
+                document.getElementById('report-activity-date').innerText = formatThaiDate(act.activity_date);
             }
 
-            const filterInfo = document.getElementById('report-filter-info');
-            if (isPrint) {
-                filterInfo.innerHTML = toThaiDigits(`ระดับชั้น: ${level} &nbsp;&nbsp;|&nbsp;&nbsp; สาขาวิชา: ${branch} &nbsp;&nbsp;|&nbsp;&nbsp; รอบการเรียน: ${shift}`);
-            } else {
-                filterInfo.innerHTML = '';
-            }
+            // 2. ดึงข้อมูลการเข้าแถว/กิจกรรมตามเงื่อนไขที่เลือก
+            let filtered = attendanceCache.filter(a => a.activity_id === actId);
 
-            const { data } = await sbClient
-                .from('attendance')
-                .select('*, students(*)')
-                .eq('activity_id', actId)
-                .order('scanned_at', { ascending: true });
+            const cleanStr = (val) => String(val || '').replace(/\s+/g, '').toLowerCase();
 
-            const tbody = document.getElementById('report-table-tbody');
-            tbody.innerHTML = '';
+            let list = filtered.map(a => {
+                const st = studentsCache.find(s => s.student_id === a.student_id) || a.students || {};
+                return { ...a, student: st };
+            }).filter(item => {
+                const matchBranch = !branch || cleanStr(item.student.branch) === cleanStr(branch);
+                const matchLevel = !level || cleanStr(item.student.class_level) === cleanStr(level);
+                const matchShift = !shift || cleanStr(item.student.shift) === cleanStr(shift);
+                return matchBranch && matchLevel && matchShift;
+            });
 
-            let list = data || [];
-            if (branch !== 'ทั้งหมด') list = list.filter(item => item.students && item.students.branch === branch);
-            if (level !== 'ทั้งหมด') list = list.filter(item => item.students && item.students.class_level === level);
-            if (shift !== 'ทั้งหมด') list = list.filter(item => item.students && item.students.shift === shift);
+            // 3. คำนวณยอดสรุปทั้ง 4 หัวข้อ
+            const totalCount = studentsCache.filter(s => {
+                const matchBranch = !branch || cleanStr(s.branch) === cleanStr(branch);
+                const matchLevel = !level || cleanStr(s.class_level) === cleanStr(level);
+                const matchShift = !shift || cleanStr(s.shift) === cleanStr(shift);
+                return matchBranch && matchLevel && matchShift;
+            }).length;
 
             const presentCount = list.filter(a => (a.status || 'เข้าร่วมกิจกรรม') === 'เข้าร่วมกิจกรรม').length;
-            const absentCount = list.filter(a => a.status === 'ไม่เข้าร่วม').length;
-            const leaveSickCount = list.filter(a => a.status === 'ลาป่วย').length;
-            const leavePersonalCount = list.filter(a => a.status === 'ลากิจ').length;
-            const activityCount = list.filter(a => a.status === 'กิจกรรมวิทยาลัย').length;
-            const lateCount = list.filter(a => a.status === 'มาสาย').length;
-            const totalLeave = leaveSickCount + leavePersonalCount;
-            const totalCount = list.length;
+            const absentCount = totalCount > presentCount ? totalCount - presentCount : 0;
             const percent = totalCount > 0 ? ((presentCount / totalCount) * 100).toFixed(2) : '0.00';
 
-            const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = toThaiDigits(val); };
-            setEl('report-sum-present', presentCount);
-            setEl('report-sum-absent', absentCount);
-            setEl('report-sum-leave-sick', leaveSickCount);
-            setEl('report-sum-leave-personal', leavePersonalCount);
-            setEl('report-sum-activity', activityCount);
-            setEl('report-sum-late', lateCount);
-            setEl('report-sum-total', totalCount);
-            setEl('report-sum-leave-total', totalLeave);
-            setEl('report-sum-percent', percent);
+            // 4. แสดงผลค่าสรุปสั้น 4 หัวข้อลงใน HTML
+            const totalEl = document.getElementById('summary-total-students');
+            const presentEl = document.getElementById('summary-present-students');
+            const absentEl = document.getElementById('summary-absent-students');
+            const percentEl = document.getElementById('summary-percent-students');
+
+            if (totalEl) totalEl.innerText = toThaiDigits(totalCount);
+            if (presentEl) presentEl.innerText = toThaiDigits(presentCount);
+            if (absentEl) absentEl.innerText = toThaiDigits(absentCount);
+            if (percentEl) percentEl.innerText = toThaiDigits(percent);
+
+            // 5. แสดงข้อมูลในตารางรายชื่อ
+            const tbody = document.getElementById('report-table-tbody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
 
             if (list.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-stone-400">ยังไม่มีข้อมูลตามเงื่อนไขที่เลือก</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-stone-400">ไม่พบข้อมูลการสแกนตามเงื่อนไขที่เลือก</td></tr>`;
                 return;
             }
 
-            list.forEach((att, idx) => {
-                const s = att.students;
-                const currentStatus = att.status || 'เข้าร่วมกิจกรรม';
-
-                const seq = isPrint ? toThaiDigits(idx + 1) : (idx + 1);
-                const stID = isPrint ? toThaiDigits(s ? s.student_id : att.student_id) : (s ? s.student_id : att.student_id);
-                const sTime = isPrint ? toThaiDigits(new Date(att.scanned_at).toLocaleTimeString('th-TH')) : new Date(att.scanned_at).toLocaleTimeString('th-TH');
-                const sLvl = isPrint ? toThaiDigits(s ? s.class_level + ' / ' + (s.room || '1') : '-') : (s ? s.class_level + ' / ' + (s.room || '1') : '-');
-
-                const tr = document.createElement('tr');
-                tr.className = 'border-b border-stone-200 text-xs';
-
-                if (isPrint) {
-                    tr.className = 'border-b border-stone-200 text-xs print-th-saraban';
-                    tr.innerHTML = `
-                <td class="p-2 border-r border-stone-300 text-center">${seq}</td>
-                <td class="p-2 border-r border-stone-300">${stID}</td>
-                <td class="p-2 border-r border-stone-300">${s ? `${s.prefix} ${s.first_name}${s.last_name}` : '-'}</td>
-                <td class="p-2 border-r border-stone-300">${s ? s.branch : '-'}</td>
-                <td class="p-2 border-r border-stone-300">${sLvl}</td>
-                <td class="p-2 border-r border-stone-300 text-center">${sTime}</td>
-                <td class="p-2 text-center">${currentStatus}</td>
-            `;
-                } else {
-                    tr.innerHTML = `
-                <td class="p-2 border-r border-stone-300 text-center font-mono">${seq}</td>
-                <td class="p-2 border-r border-stone-300 font-mono font-medium">${stID}</td>
-                <td class="p-2 border-r border-stone-300 font-medium">${s ? `${s.prefix} ${s.first_name}${s.last_name}` : '-'}</td>
-                <td class="p-2 border-r border-stone-300">${s ? s.branch : '-'}</td>
-                <td class="p-2 border-r border-stone-300">${s ? s.shift : '-'}</td>
-                <td class="p-2 border-r border-stone-300 text-center font-mono">${sTime}</td>
+            list.forEach((item, idx) => {
+                const st = item.student || {};
+                const scanTime = item.scanned_at ? new Date(item.scanned_at).toLocaleTimeString('th-TH') : '-';
+                tbody.innerHTML += `
+            <tr class="hover:bg-rose-50/40 border-b border-stone-200">
+                <td class="p-2 text-center border-r border-stone-300 font-mono">${toThaiDigits(idx + 1)}</td>
+                <td class="p-2 border-r border-stone-300 font-mono font-semibold text-maroon-800">${st.student_id || item.student_id}</td>
+                <td class="p-2 border-r border-stone-300 font-medium">${st.prefix || ''} ${st.first_name || '-'} ${st.last_name || ''}</td>
+                <td class="p-2 border-r border-stone-300 text-stone-600">${st.branch || '-'}</td>
+                <td class="p-2 border-r border-stone-300 text-stone-600">${st.shift || '-'}</td>
+                <td class="p-2 border-r border-stone-300 text-center font-mono">${scanTime}</td>
                 <td class="p-2 text-center">
-                <select onchange="updateAttendanceStatus('${att.id}', this.value)" class="w-full px-2 py-1 rounded border border-stone-300 text-xs font-medium outline-none">
-                    <option value="เข้าร่วมกิจกรรม" ${currentStatus === 'เข้าร่วมกิจกรรม' ? 'selected' : ''}>เข้าร่วมกิจกรรม</option>
-                    <option value="ไม่เข้าร่วม" ${currentStatus === 'ไม่เข้าร่วม' ? 'selected' : ''}>ไม่เข้าร่วม</option>
-                    <option value="ลาป่วย" ${currentStatus === 'ลาป่วย' ? 'selected' : ''}>ลาป่วย</option>
-                    <option value="ลากิจ" ${currentStatus === 'ลากิจ' ? 'selected' : ''}>ลากิจ</option>
-                    <option value="กิจกรรมวิทยาลัย" ${currentStatus === 'กิจกรรมวิทยาลัย' ? 'selected' : ''}>กิจกรรมวิทยาลัย</option>
-                    <option value="มาสาย" ${currentStatus === 'มาสาย' ? 'selected' : ''}>มาสาย</option>
-                </select>
+                    <span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800">${item.status || 'เข้าร่วมกิจกรรม'}</span>
                 </td>
-            `;
-                }
-                tbody.appendChild(tr);
+            </tr>
+        `;
             });
-        }
 
-        async function updateAttendanceStatus(attendanceId, newStatus) {
-            showLoader('กำลังอัปเดตสถานะ...');
-            const { error } = await sbClient.from('attendance').update({ status: newStatus }).eq('id', attendanceId);
-            hideLoader();
-            if (error) {
-                showToast('ไม่สามารถอัปเดตสถานะได้', 'error');
-            } else {
-                showToast(`ปรับสถานะเป็น "${newStatus}" เรียบร้อยแล้ว`);
-                await loadReportData();
-            }
+            if (window.lucide) lucide.createIcons();
         }
 
         function printReportView() {
@@ -2005,6 +2214,14 @@
                 tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-stone-400">ไม่พบรายชื่อนักศึกษา</td></tr>`;
                 return;
             }
+
+            // เรียงตามระดับชั้นและห้อง
+            list.sort((a, b) => {
+                const levelCmp = (a.class_level || '').localeCompare(b.class_level || '');
+                if (levelCmp !== 0) return levelCmp;
+                return (a.room || '').localeCompare(b.room || '');
+            });
+
             list.forEach(s => {
                 const tr = document.createElement('tr');
                 tr.className = 'hover:bg-rose-50/40 transition';
@@ -2014,13 +2231,59 @@
           <td class="p-3 text-stone-600 font-medium">${s.branch}</td>
           <td class="p-3 text-stone-600">${s.class_level} / ห้อง ${s.room || '1'}</td>
           <td class="p-3">${s.shift === 'รอบเช้า' ? '<span class="px-2 py-0.5 rounded-full text-[10px] bg-amber-100 text-amber-800 font-semibold">รอบเช้า</span>' : '<span class="px-2 py-0.5 rounded-full text-[10px] bg-indigo-100 text-indigo-800 font-semibold">รอบบ่าย</span>'}</td>
-          <td class="p-3 text-center">
-            <button onclick="deleteStudent('${s.id}', '${s.first_name}')" class="p-1.5 text-stone-400 hover:text-rose-600"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+          <td class="p-3 text-center flex items-center justify-center gap-1">
+            <button onclick="editStudent('${s.id}')" class="p-1.5 text-stone-400 hover:text-amber-600" title="แก้ไข"><i data-lucide="edit" class="w-4 h-4"></i></button>
+            <button onclick="deleteStudent('${s.id}', '${s.first_name}')" class="p-1.5 text-stone-400 hover:text-rose-600" title="ลบ"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
           </td>
         `;
                 tbody.appendChild(tr);
             });
             if (window.lucide) lucide.createIcons();
+        }
+
+        // ฟังก์ชันเปิด Modal พร้อมแสดงข้อมูลเก่า
+        function editStudent(id) {
+            const s = studentsCache.find(x => x.id === id);
+            if (!s) return;
+            document.getElementById('stud-edit-id').value = s.id;
+            document.getElementById('stud-code').value = s.student_id;
+            document.getElementById('stud-prefix').value = s.prefix;
+            document.getElementById('stud-fname').value = s.first_name;
+            document.getElementById('stud-lname').value = s.last_name;
+            document.getElementById('stud-branch').value = s.branch;
+            document.getElementById('stud-level').value = s.class_level;
+            document.getElementById('stud-room').value = s.room || '1';
+            document.getElementById('stud-shift').value = s.shift;
+            document.getElementById('student-modal-title').innerText = 'แก้ไขข้อมูลนักศึกษา';
+            document.getElementById('student-modal').classList.remove('hidden');
+        }
+
+        // แก้ไขฟังก์ชันบันทึกเพื่อรองรับการอัปเดต (Upsert)
+        async function handleStudentSubmit(e) {
+            e.preventDefault();
+            showLoader('กำลังบันทึกนักศึกษา...');
+            const payload = {
+                student_id: document.getElementById('stud-code').value.trim(),
+                prefix: document.getElementById('stud-prefix').value,
+                first_name: document.getElementById('stud-fname').value.trim(),
+                last_name: document.getElementById('stud-lname').value.trim(),
+                branch: document.getElementById('stud-branch').value.trim(),
+                class_level: document.getElementById('stud-level').value,
+                room: document.getElementById('stud-room').value.trim(),
+                shift: document.getElementById('stud-shift').value
+            };
+
+            const editId = document.getElementById('stud-edit-id').value;
+            if (editId) payload.id = editId;
+
+            const { error } = await sbClient.from('students').upsert([payload]);
+            hideLoader();
+            if (error) showToast(`บันทึกไม่สำเร็จ: ${error.message}`, 'error');
+            else {
+                showToast('บันทึกข้อมูลเรียบร้อย');
+                closeStudentModal();
+                await fetchStudents();
+            }
         }
 
         function filterStudentsTable() {
@@ -2156,13 +2419,51 @@
           <td class="p-3.5 text-stone-600">${a.activity_date}</td>
           <td class="p-3.5 text-stone-600">${a.location}</td>
           <td class="p-3.5"><span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-800">${a.status}</span></td>
-          <td class="p-3.5 text-center">
-            <button onclick="deleteActivity('${a.id}', '${a.activity_name}')" class="p-1 text-stone-400 hover:text-rose-600"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+          <td class="p-3.5 text-center flex items-center justify-center gap-1">
+            <button onclick="editActivity('${a.id}')" class="p-1 text-stone-400 hover:text-amber-600" title="แก้ไข"><i data-lucide="edit" class="w-4 h-4"></i></button>
+            <button onclick="deleteActivity('${a.id}', '${a.activity_name}')" class="p-1 text-stone-400 hover:text-rose-600" title="ลบ"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
           </td>
         `;
                 tbody.appendChild(tr);
             });
             if (window.lucide) lucide.createIcons();
+        }
+
+        function editActivity(id) {
+            const a = activitiesCache.find(x => x.id === id);
+            if (!a) return;
+            document.getElementById('act-edit-id').value = a.id;
+            document.getElementById('act-code').value = a.activity_code;
+            document.getElementById('act-name').value = a.activity_name;
+            document.getElementById('act-date').value = a.activity_date;
+            document.getElementById('act-location').value = a.location;
+            document.getElementById('act-status').value = a.status;
+            document.getElementById('act-modal-title').innerText = 'แก้ไขข้อมูลกิจกรรม';
+            document.getElementById('activity-modal').classList.remove('hidden');
+        }
+
+        async function handleActivitySubmit(e) {
+            e.preventDefault();
+            showLoader('กำลังบันทึกกิจกรรม...');
+            const payload = {
+                activity_code: document.getElementById('act-code').value.trim(),
+                activity_name: document.getElementById('act-name').value.trim(),
+                activity_date: document.getElementById('act-date').value,
+                location: document.getElementById('act-location').value.trim(),
+                status: document.getElementById('act-status').value
+            };
+
+            const editId = document.getElementById('act-edit-id').value;
+            if (editId) payload.id = editId;
+
+            const { error } = await sbClient.from('activities').upsert([payload]);
+            hideLoader();
+            if (error) showToast(`บันทึกไม่สำเร็จ: ${error.message}`, 'error');
+            else {
+                showToast('บันทึกกิจกรรมเรียบร้อยแล้ว');
+                closeActivityModal();
+                await fetchActivities();
+            }
         }
 
         function openActivityModal() {
